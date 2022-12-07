@@ -82,7 +82,8 @@ var rotationRtm=0;
 function convertRange( value, r1, r2 ) { 
     return ( value - r1[ 0 ] ) * ( r2[ 1 ] - r2[ 0 ] ) / ( r1[ 1 ] - r1[ 0 ] ) + r2[ 0 ];
 }
-
+var pulseFreqMin=80;
+var pulseFreqMax=260;
 function step(timestamp) {
 	
 	//console.log(timestamp);
@@ -143,7 +144,7 @@ function step(timestamp) {
 		
 
 		
-		if (timestamp-rotationRtm > convertRange(Math.abs(afterTouch-127), [0, 127], [80, 260])){
+		if (timestamp-rotationRtm > convertRange(Math.abs(afterTouch-127), [0, 127], [pulseFreqMin, pulseFreqMax])){
 			//console.log('ok', rotationRtm, timestamp);
 			rotationRtm=timestamp;
 			playPulse();
