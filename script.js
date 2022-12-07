@@ -392,37 +392,52 @@ inputList.addEventListener('input', function (event) {
 document.getElementById('close').addEventListener('click', function (event) {
 	document.getElementById('lastMidiEv').style.display="none";
 	document.getElementById('midiSelection').style.display="none";
+	document.getElementById('open').style.display="block";
+	
+});
+
+document.getElementById('open').addEventListener('click', function (event) {
+	document.getElementById('lastMidiEv').style.display="block";
+	document.getElementById('midiSelection').style.display="none";
+	document.getElementById('open').style.display="none";
 	
 });
 
 var afterTouch=100;
+var eventLines=Array.from({length: 45}, () => "");
+var midiNote=39;
 function getMIDIMessage(midiMessage) {
 	
-	logEventsMidi.innerHTML=logEventsMidi.innerHTML+midiMessage.data.toString()+'<br>';
+	//logEventsMidi.innerHTML='<br>'+(midiMessage.data.toString()+logEventsMidi.innerHTML).substring(0, 1000);
+	
 	//console.log(midiMessage.data);
 	
 	if (midiMessage.data[0]==208){
 		//console.log("aftertouch", midiMessage.data[1], Date.now()-currentTime)
 		afterTouch=midiMessage.data[1];
-	}
-	
-    if (midiMessage.data[1]==39){
-	    
-	    
 		
-		if (midiMessage.data[0]==144 && midiMessage.data[2]>0){
+		eventLines.push('<br>'+'<span style="background: #ff0;">'+midiMessage.data.toString()+'</span>');
+	} else if (midiMessage.data[1]==midiNote && midiMessage.data[0]==144 && midiMessage.data[2]>0){
 			downFunction(midiMessage.data[2]);
-		}
-		
-		if (midiMessage.data[0]==144 && midiMessage.data[2]==0){
+			eventLines.push('<br>'+'<span style="background: #ff0;">'+midiMessage.data.toString()+'</span>');
+	} else if (midiMessage.data[1]==midiNote && midiMessage.data[0]==144 && midiMessage.data[2]==0){
+			eventLines.push('<br>'+'<span style="background: #ff0;">'+midiMessage.data.toString()+'</span>');
 			upFunction();
-		}
-	    
-	   	if (midiMessage.data[0]==128){
+	} else if (midiMessage.data[1]==midiNote && midiMessage.data[0]==128){
+			eventLines.push('<br>'+'<span style="background: #ff0;">'+midiMessage.data.toString()+'</span>');
 			upFunction();
-		}
-		
+	} else {
+			eventLines.push('<br>'+'<span>'+midiMessage.data.toString()+'</span>');
 	}
+	eventLines.shift();
+	
+	let eventString='';
+	eventLines.slice().reverse().forEach((txt) => {
+	  eventString=eventString+txt;
+
+	});
+	logEventsMidi.innerHTML=eventString;
+
 }
 
 
@@ -442,10 +457,18 @@ window.fetch(pulse)
 		myArrayBuffer.copyToChannel(audioBuffer.getChannelData(0), 2)
 		myArrayBuffer.copyToChannel(audioBuffer.getChannelData(1), 3)
 });
-    
+   
+   
+pulseVolume=10;
 function playPulse(){
 	var source = audioCtx.createBufferSource();
 	source.buffer = myArrayBuffer;
-	source.connect(audioCtx.destination);
+	
+	var gainNode = audioCtx.createGain()
+	gainNode.gain.value = pulseVolume/10; 
+	gainNode.connect(audioCtx.destination)
+	
+	
+	source.connect(gainNode);
 	source.start();
 }
