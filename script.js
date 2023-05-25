@@ -189,7 +189,7 @@ function step(timestamp) {
 		
 		//if (sonicPanner>0) { sonicPanner=1; } else {sonicPanner=-1;}
 		
-		panner.pan.rampTo(sonicPanner, now);
+		panner.pan.rampTo(sonicPanner, 0.05);
 		osc.connect(panner).frequency.rampTo(parseInt(startValue+sonicAngle), now);
 		
 	} else {
