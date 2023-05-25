@@ -307,7 +307,7 @@ function upFunction(){
 	osc.volume.rampTo(-Infinity, 0.05);
 	setTimeout(() => {
 	  osc.stop();
-	}, 500);
+	}, 100);
 
 	
 }
