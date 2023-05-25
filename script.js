@@ -194,7 +194,7 @@ function step(timestamp) {
 		osc.connect(panner).frequency.rampTo(parseInt(startValue+sonicAngle), now);
 		
 	} else {
-		osc.volume.rampTo(-Infinity, 0.05);
+		//osc.volume.rampTo(-Infinity, 0.05);
 		rotatingIncrement=0;
 	}
 	window.requestAnimationFrame(step);
@@ -303,7 +303,12 @@ function upFunction(){
 		
 	allowed = true;
 	rotating = false;
-	osc.stop();
+	
+	osc.volume.rampTo(-Infinity, 0.05);
+	setTimeout(() => {
+	  osc.stop();
+	}, 500);
+
 	
 }
 
