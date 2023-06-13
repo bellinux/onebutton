@@ -422,8 +422,8 @@ function getMIDIMessage(midiMessage) {
 	//console.log(midiMessage.data);
 	
 	if (midiMessage.data[0]==224){
-		console.log("pitchBend", midiMessage.data[2], Date.now()-currentTime)
-		if (midiMessage.data[2]>80) bendUp=1;
+		// console.log("pitchBend", midiMessage.data[2], Date.now()-currentTime)
+		if (midiMessage.data[2]>90) bendUp=1;
 		else bendUp=-1;
 	} else if (midiMessage.data[0]==208){
 		//console.log("aftertouch", midiMessage.data[1], Date.now()-currentTime)
