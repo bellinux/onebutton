@@ -66,6 +66,7 @@ var rtmDiff=600;
 //sampler.connect(pianoPanner).triggerAttackRelease([464], 0.1);
 var timeRtm=0;
 var rotatingIncrement=0;
+var bendUp=1;
 
 function getOffset(el) {
   const rect = el.getBoundingClientRect();
@@ -159,7 +160,7 @@ function step(timestamp) {
 		//console.log(rotatingIncrement);
 		
 		//if (contrary){
-		increment+=rotatingIncrement;
+		increment+=rotatingIncrement*bendUp;
 		//} else {
 		//	increment-=rotatingIncrement;
 		//}
@@ -420,7 +421,10 @@ function getMIDIMessage(midiMessage) {
 	
 	//console.log(midiMessage.data);
 	
-	if (midiMessage.data[0]==208){
+	if (midiMessage.data[0]==224){
+		if (midiMessage.data[1]>80) bendUp=1;
+		else bendUp=-1;
+	} else if (midiMessage.data[0]==208){
 		//console.log("aftertouch", midiMessage.data[1], Date.now()-currentTime)
 		afterTouch=midiMessage.data[1];
 		
