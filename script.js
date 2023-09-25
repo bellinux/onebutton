@@ -430,13 +430,13 @@ function getMIDIMessage(midiMessage) {
 		afterTouch=midiMessage.data[1];
 		
 		eventLines.push('<br>'+'<span style="background: #ff0;">'+midiMessage.data.toString()+'</span>');
-	} else if (midiMessage.data[1]==midiNote && midiMessage.data[0]==144 && midiMessage.data[2]>0){
+	} else if (midiMessage.data[1]==midiNote && midiMessage.data[0]==145 && midiMessage.data[2]>0){
 			downFunction(midiMessage.data[2]);
 			eventLines.push('<br>'+'<span style="background: #ff0;">'+midiMessage.data.toString()+'</span>');
-	} else if (midiMessage.data[1]==midiNote && midiMessage.data[0]==144 && midiMessage.data[2]==0){
+	} else if (midiMessage.data[1]==midiNote && midiMessage.data[0]==145 && midiMessage.data[2]==0){
 			eventLines.push('<br>'+'<span style="background: #ff0;">'+midiMessage.data.toString()+'</span>');
 			upFunction();
-	} else if (midiMessage.data[1]==midiNote && midiMessage.data[0]==128){
+	} else if (midiMessage.data[1]==midiNote && midiMessage.data[0]==129){
 			eventLines.push('<br>'+'<span style="background: #ff0;">'+midiMessage.data.toString()+'</span>');
 			upFunction();
 	} else {
