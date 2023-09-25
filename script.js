@@ -414,7 +414,7 @@ document.getElementById('open').addEventListener('click', function (event) {
 
 var afterTouch=100;
 var eventLines=Array.from({length: 45}, () => "");
-var midiNote=39;
+var midiNote=70;
 function getMIDIMessage(midiMessage) {
 	
 	//logEventsMidi.innerHTML='<br>'+(midiMessage.data.toString()+logEventsMidi.innerHTML).substring(0, 1000);
