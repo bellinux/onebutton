@@ -154,14 +154,14 @@ function step(timestamp) {
 		
 		
 		
-		
+		var macConst=1.8;
 		
 		//}
 		
 		//console.log(rotatingIncrement);
 		
 		//if (contrary){
-		increment+=rotatingIncrement*bendUp;
+		increment+=rotatingIncrement*macConst*bendUp;
 		//} else {
 		//	increment-=rotatingIncrement;
 		//}
