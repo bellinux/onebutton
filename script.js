@@ -154,7 +154,7 @@ function step(timestamp) {
 		
 		
 		
-		var macConst=1.8;
+		var macConst=2.4;
 		
 		//}
 		
