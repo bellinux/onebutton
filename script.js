@@ -83,8 +83,7 @@ var rotationRtm=0;
 function convertRange( value, r1, r2 ) { 
     return ( value - r1[ 0 ] ) * ( r2[ 1 ] - r2[ 0 ] ) / ( r1[ 1 ] - r1[ 0 ] ) + r2[ 0 ];
 }
-var pulseFreqMin=80;
-var pulseFreqMax=260;
+
 function step(timestamp) {
 	
 	//console.log(timestamp);
@@ -144,9 +143,11 @@ function step(timestamp) {
 		rotatingIncrement=(0.100/127)*afterTouch;
 		
 
-		
-		if (timestamp-rotationRtm > convertRange(Math.abs(afterTouch-127), [0, 127], [pulseFreqMin, pulseFreqMax])){
+		var pulseFreqMin=60;
+		var pulseFreqMax=1200;
+		if (timestamp-rotationRtm > convertRange(Math.abs(afterTouch-24), [0, 24], [pulseFreqMin, pulseFreqMax])){
 			//console.log('ok', rotationRtm, timestamp);
+			console.log('aftertouch', afterTouch);
 			rotationRtm=timestamp;
 			playPulse();
 		}
@@ -340,6 +341,8 @@ function iterateLines(){
 		if (pointIndex<pointSequence.length){
 			iterateLines();
 			coordinates+=Date.now()+";"+parseInt(getOffset(target).left)+";"+parseInt(getOffset(target).top)+";"+parseInt(getOffset(dot).left)+";"+parseInt(getOffset(dot).top)+"\n";
+		
+		
 		} else {
 			download_csv();
 			
