@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tracciamento dei percorsi</title>
+</head>
+<body style="background-color:black;">
+    <input type="file" id="csvInput" accept=".csv" style="display:none;">
+    <canvas id="canvas" width="1920" height="1080"></canvas>
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const ghostColor = 'red';
+        const targetColor = 'white';
+        
+        let ghostPath = [];
+        let targetPath = [];
+
+        // Funzione per leggere e tracciare i dati dal file CSV
+        function handleFile(file) {
+            const reader = new FileReader();
+
+            reader.onload = function(event) {
+                const csvData = event.target.result;
+                const lines = csvData.split('\n');
+                for (let i = 1; i < lines.length; i++) {
+                    const data = lines[i].split(';');
+                    const ghostX = parseFloat(data[1]);
+                    const ghostY = parseFloat(data[2]);
+                    const targetX = parseFloat(data[3]);
+                    const targetY = parseFloat(data[4]);
+
+                    // Aggiungi il punto ghost al percorso del ghost
+                    ghostPath.push({ x: ghostX, y: ghostY });
+
+                    // Aggiungi il punto target al percorso del target
+                    targetPath.push({ x: targetX, y: targetY });
+                }
+				
+				var pointsToRemove=0;
+
+                // Disegna il percorso del ghost
+                ctx.strokeStyle = ghostColor;
+                ctx.beginPath();
+                ctx.moveTo(ghostPath[0].x, ghostPath[0].y);
+                for (let i = 1; i < ghostPath.length-pointsToRemove; i++) {
+                    ctx.lineTo(ghostPath[i].x, ghostPath[i].y);
+                }
+                ctx.stroke();
+				
+
+                // Disegna il percorso del target
+                ctx.strokeStyle = targetColor;
+                ctx.beginPath();
+                ctx.moveTo(targetPath[1].x, targetPath[1].y);
+                for (let i = 1; i < targetPath.length-pointsToRemove; i++) {
+                    ctx.lineTo(targetPath[i].x, targetPath[i].y);
+                }
+                ctx.stroke();
+            };
+
+            reader.readAsText(file);
+        }
+
+        // Aggiungi un gestore per l'evento di rilascio del file
+        const csvInput = document.getElementById('csvInput');
+        csvInput.addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                ghostPath = [];
+                targetPath = [];
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                handleFile(file);
+            }
+        });
+
+        // Gestisci il drag and drop del file
+        canvas.addEventListener('dragover', function(event) {
+            event.preventDefault();
+        });
+
+        canvas.addEventListener('drop', function(event) {
+            event.preventDefault();
+            const file = event.dataTransfer.files[0];
+            if (file) {
+                ghostPath = [];
+                targetPath = [];
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                handleFile(file);
+            }
+        });
+    </script>
+</body>
+</html>
