@@ -296,7 +296,9 @@ function upFunction(){
 			//console.log(intervals);
 				
 			rtmDiff = (intervals[1]-intervals[0]);
-			rtmDiff=rtmDiff;
+			
+			if (rtmDiff<400) rtmDiff = 300;
+			
 			diff = rtmDiff/300;
 				
 
