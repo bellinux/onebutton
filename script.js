@@ -357,7 +357,7 @@ function iterateLines(){
 			
 		}
 		
-	}, 283);
+	}, 275);
 }
 //iterateLines();
 
