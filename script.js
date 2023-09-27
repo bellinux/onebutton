@@ -427,6 +427,7 @@ document.getElementById('open').addEventListener('click', function (event) {
 var afterTouch=100;
 var eventLines=Array.from({length: 45}, () => "");
 var midiNote=70;
+var midiNote2=72;
 var upEnabled=false;
 function getMIDIMessage(midiMessage) {
 	
@@ -451,7 +452,7 @@ function getMIDIMessage(midiMessage) {
 		//afterTouch=midiMessage.data[1];
 		
 		//eventLines.push('<br>'+'<span style="background: #ff0;">'+midiMessage.data.toString()+'</span>');
-	} else if (midiMessage.data[1]==midiNote && midiMessage.data[0]==145 && midiMessage.data[2]>0){
+	} else if ((midiMessage.data[1]==midiNote || midiMessage.data[1]==midiNote2) && midiMessage.data[0]==145 && midiMessage.data[2]>0){
 		//if (midiMessage.data[2] > 100){
 			downFunction(midiMessage.data[2]);
 			eventLines.push('<br>'+'<span style="background: #ff0;">'+midiMessage.data.toString()+'</span>');
@@ -460,7 +461,7 @@ function getMIDIMessage(midiMessage) {
 	//} else if (midiMessage.data[1]==midiNote && midiMessage.data[0]==145 && midiMessage.data[2]==0){
 	//		eventLines.push('<br>'+'<span style="background: #ff0;">'+midiMessage.data.toString()+'</span>');
 	//		upFunction();
-	} else if (midiMessage.data[1]==midiNote && midiMessage.data[0]==129){
+	} else if ((midiMessage.data[1]==midiNote || midiMessage.data[1]==midiNote2) && midiMessage.data[0]==129){
 		//if (upEnabled) {
 			eventLines.push('<br>'+'<span style="background: #ff0;">'+midiMessage.data.toString()+'</span>');
 			upFunction();
