@@ -6,7 +6,8 @@
 <body style="background-color:black;">
     <input type="file" id="csvInput" accept=".csv" style="display:none;">
     <canvas id="canvas" width="1920" height="1080"></canvas>
-    <input type="range" id="animationSlider" min="0" max="100" step="1" value="0">
+    <input type="range" id="animationSlider" min="0" max="1000" step="1" value="0">
+	<button id="animationButton">Avvia</button>
 	<style>
     /* Stile per lo slider */
     #animationSlider {
@@ -15,7 +16,14 @@
         left: 5%;
         width: 90%;
     }
+	#animationButton {
+    position: fixed;
+    top: 10px; /* Regola questa cifra per la distanza dalla parte superiore */
+    left: 10px; /* Regola questa cifra per la distanza dalla parte sinistra */
+}
 </style>
+
+
     <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
@@ -103,7 +111,7 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
             // Calcola la percentuale di avanzamento basata sullo slider
-            const progress = animationFrame / 100;
+            const progress = animationFrame / 1000;
 
             const ghostPathLength = ghostPath.length;
             const targetPathLength = targetPath.length;
@@ -133,6 +141,38 @@
             animationFrame = parseInt(event.target.value);
             drawPaths();
         });
+
+        // Richiama la funzione drawPaths all'avvio per disegnare i percorsi iniziali
+    
+ const animationButton = document.getElementById('animationButton');
+        let animationRunning = false;
+        let animationInterval;
+
+        // Funzione per avviare o mettere in pausa l'animazione
+        function toggleAnimation() {
+            if (animationRunning) {
+                clearInterval(animationInterval);
+                animationButton.textContent = 'Avvia';
+            } else {
+                animationInterval = setInterval(animate, 100); // Regola la velocità dell'animazione
+                animationButton.textContent = 'Pausa';
+            }
+            animationRunning = !animationRunning;
+        }
+
+        // Aggiungi un gestore per l'evento di clic sul pulsante di animazione
+        animationButton.addEventListener('click', toggleAnimation);
+
+        // Funzione per gestire l'animazione
+        function animate() {
+            if (animationFrame < 1000) {
+                animationFrame=animationFrame+10;
+            } else {
+                animationFrame = 0;
+            }
+            animationSlider.value = animationFrame;
+            drawPaths();
+        }
 
         // Richiama la funzione drawPaths all'avvio per disegnare i percorsi iniziali
         drawPaths();
