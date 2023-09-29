@@ -6,14 +6,26 @@
 <body style="background-color:black;">
     <input type="file" id="csvInput" accept=".csv" style="display:none;">
     <canvas id="canvas" width="1920" height="1080"></canvas>
+    <input type="range" id="animationSlider" min="0" max="100" step="1" value="0">
+	<style>
+    /* Stile per lo slider */
+    #animationSlider {
+        position: fixed;
+        top: 10px;
+        left: 5%;
+        width: 90%;
+    }
+</style>
     <script>
         const canvas = document.getElementById('canvas');
         const ctx = canvas.getContext('2d');
         const ghostColor = 'red';
         const targetColor = 'white';
-        
+
         let ghostPath = [];
         let targetPath = [];
+        const animationSlider = document.getElementById('animationSlider');
+        let animationFrame = 0;
 
         // Funzione per leggere e tracciare i dati dal file CSV
         function handleFile(file) {
@@ -35,24 +47,21 @@
                     // Aggiungi il punto target al percorso del target
                     targetPath.push({ x: targetX, y: targetY });
                 }
-				
-				var pointsToRemove=0;
 
                 // Disegna il percorso del ghost
                 ctx.strokeStyle = ghostColor;
                 ctx.beginPath();
                 ctx.moveTo(ghostPath[0].x, ghostPath[0].y);
-                for (let i = 1; i < ghostPath.length-pointsToRemove; i++) {
+                for (let i = 1; i < ghostPath.length; i++) {
                     ctx.lineTo(ghostPath[i].x, ghostPath[i].y);
                 }
                 ctx.stroke();
-				
 
                 // Disegna il percorso del target
                 ctx.strokeStyle = targetColor;
                 ctx.beginPath();
                 ctx.moveTo(targetPath[1].x, targetPath[1].y);
-                for (let i = 1; i < targetPath.length-pointsToRemove; i++) {
+                for (let i = 1; i < targetPath.length; i++) {
                     ctx.lineTo(targetPath[i].x, targetPath[i].y);
                 }
                 ctx.stroke();
@@ -88,6 +97,45 @@
                 handleFile(file);
             }
         });
+
+        // Funzione per disegnare i percorsi in base al frame corrente
+        function drawPaths() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Calcola la percentuale di avanzamento basata sullo slider
+            const progress = animationFrame / 100;
+
+            const ghostPathLength = ghostPath.length;
+            const targetPathLength = targetPath.length;
+
+            const ghostPathIndex = Math.floor(progress * (ghostPathLength - 1));
+            const targetPathIndex = Math.floor(progress * (targetPathLength - 1));
+
+            ctx.strokeStyle = ghostColor;
+            ctx.beginPath();
+            ctx.moveTo(ghostPath[0].x, ghostPath[0].y);
+            for (let i = 1; i <= ghostPathIndex; i++) {
+                ctx.lineTo(ghostPath[i].x, ghostPath[i].y);
+            }
+            ctx.stroke();
+
+            ctx.strokeStyle = targetColor;
+            ctx.beginPath();
+            ctx.moveTo(targetPath[1].x, targetPath[1].y);
+            for (let i = 1; i <= targetPathIndex; i++) {
+                ctx.lineTo(targetPath[i].x, targetPath[i].y);
+            }
+            ctx.stroke();
+        }
+
+        // Aggiungi un gestore per l'evento di cambiamento dello slider
+        animationSlider.addEventListener('input', function(event) {
+            animationFrame = parseInt(event.target.value);
+            drawPaths();
+        });
+
+        // Richiama la funzione drawPaths all'avvio per disegnare i percorsi iniziali
+        drawPaths();
     </script>
 </body>
 </html>
