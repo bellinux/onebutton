@@ -536,9 +536,10 @@ peer.on('connection', (conn) => {
 			downFunction(100);
 			eventLines.push('<br>'+'<span style="background: #ff0;">Press</span>');
 			upEnabled=true;
+			afterTouch=0;
         } else if (data.ev === 'm') {
             console.log('Evento di movimento:', data.deltaX);	
-			
+			afterTouch=0;
 			if (data.deltaX!=0) {
 				afterTouch=(data.deltaX*3.5)*-1;
 			}
