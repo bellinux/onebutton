@@ -21,22 +21,22 @@
                 console.log('Connessione aperta con il destinatario.');
             });
 
-            document.addEventListener('touchstart', (e) => {
+            document.addEventListener('pointerdown', (e) => {
+				console.log(e);
 				window.navigator.vibrate(100);
-                startX = e.touches[0].clientX;
-                startY = e.touches[0].clientY;
+                startX = e.clientX;
                 isTouching = true;
                 conn.send({ ev: 'p' }); // Invia l'evento di pressione
             });
 
-            document.addEventListener('touchmove', (e) => {
+            document.addEventListener('pointermove', (e) => {
                 if (isTouching) {
-                    const deltaX = e.touches[0].clientX - startX;
+                    const deltaX = e.clientX - startX;
                     conn.send({ ev: 'm', deltaX });
                 }
             });
 
-            document.addEventListener('touchend', () => {
+            document.addEventListener('pointerup', () => {
                 isTouching = false;
                 conn.send({ ev: 'r' });
             });
@@ -58,15 +58,15 @@
 
     </script>
     <h1>One Button</h1>
-
-	<style>
+	
+		<style>
 
 		html, body {
   -webkit-user-select: none;  /* Chrome all / Safari all */
   -moz-user-select: none;     /* Firefox all */
   -ms-user-select: none;      /* IE 10+ */
   user-select: none;          /* Likely future */      
-			touch-action: pan-x;
+
 }
 	</style>
 
