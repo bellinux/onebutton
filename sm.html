@@ -36,7 +36,7 @@
                     let deltaX = e.clientX - startX;
 					deltaX=parseInt(deltaX);
 					console.log(deltaX);
-					if (Math.abs(deltaX) < 7 && oldDeltaX!=deltaX){
+					if (Math.abs(deltaX) < 10 && oldDeltaX!=deltaX){
 					
 						conn.send({ ev: 'm', deltaX });
 					}
