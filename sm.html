@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trasmettitore</title>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/peerjs/1.2.0/peerjs.min.js"></script>
+    <script>
+        const peer = new Peer(); // Inizializza PeerJS
+
+        let startX, startY;
+        let isTouching = false;
+
+        // Funzione per iniziare una connessione peer-to-peer
+        function startConnection() {
+            const conn = peer.connect("onebutton-sm-ab-com");
+
+            conn.on('open', () => {
+                console.log('Connessione aperta con il destinatario.');
+            });
+
+            document.addEventListener('touchstart', (e) => {
+				window.navigator.vibrate(100);
+                startX = e.touches[0].clientX;
+                startY = e.touches[0].clientY;
+                isTouching = true;
+                conn.send({ ev: 'p' }); // Invia l'evento di pressione
+            });
+
+            document.addEventListener('touchmove', (e) => {
+                if (isTouching) {
+                    const deltaX = e.touches[0].clientX - startX;
+                    conn.send({ ev: 'm', deltaX });
+                }
+            });
+
+            document.addEventListener('touchend', () => {
+                isTouching = false;
+                conn.send({ ev: 'r' });
+            });
+			
+			conn.on('data', (data) => {
+                if (data.ev === 'v') {
+                    console.log('Vibra');
+					window.navigator.vibrate(100);
+                } 
+            });
+        }
+		
+		
+		peer.on('open', function(id) {
+			startConnection();
+		});
+		
+
+
+    </script>
+    <h1>One Button</h1>
+
+</body>
+</html>
