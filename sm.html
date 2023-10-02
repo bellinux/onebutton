@@ -12,6 +12,7 @@
 
         let startX, startY;
         let isTouching = false;
+		let oldDeltaX=0;
 
         // Funzione per iniziare una connessione peer-to-peer
         function startConnection() {
@@ -27,12 +28,20 @@
                 startX = e.clientX;
                 isTouching = true;
                 conn.send({ ev: 'p' }); // Invia l'evento di pressione
+				oldDeltaX=0;
             });
 
             document.addEventListener('pointermove', (e) => {
                 if (isTouching) {
-                    const deltaX = e.clientX - startX;
-                    conn.send({ ev: 'm', deltaX });
+                    let deltaX = e.clientX - startX;
+					deltaX=parseInt(deltaX);
+					console.log(deltaX);
+					if (Math.abs(deltaX) < 7 && oldDeltaX!=deltaX){
+					
+						conn.send({ ev: 'm', deltaX });
+					}
+						
+					oldDeltaX=deltaX;
                 }
             });
 
