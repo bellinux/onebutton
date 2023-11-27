@@ -9,7 +9,7 @@ let increment=0.1;
 let speedFactor=6;
 
 let pressedThreshold=300;
-let eachAngle=45;
+let eachAngle=20;
 let prevAngle=0;
 const now = Tone.now()
 const startValue=220;
@@ -184,7 +184,7 @@ function step(timestamp) {
 		xMov=Math.sin(increment);
 		
 		var angle=parseInt((Math.atan2(yMov, xMov) * (180/Math.PI))) - 135;
-		let angleChange=parseInt(angle%eachAngle);
+		let angleChange=parseInt(angle/eachAngle);
 		//console.log("tick", angleChange);
 		if (angleChange != prevAngle){
 			console.log("tick:",angle,eachAngle, angleChange)
