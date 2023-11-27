@@ -187,7 +187,7 @@ function step(timestamp) {
 		
 		var angle=parseInt((Math.atan2(yMov, xMov) * (180/Math.PI))) - 135;
 		let angleChange=parseInt(angle/eachAngle);
-		//console.log("tick", angleChange);
+		console.log("angle", angle);
 		if (angleChange != prevAngle){
 			console.log("tick:",angle,eachAngle, angleChange)
 			prevAngle=angleChange;
