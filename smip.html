@@ -20,6 +20,7 @@
 
             conn.on('open', () => {
                 console.log('Connessione aperta con il destinatario.');
+		    document.getElementById("opened").innerHTML = "Open";
             });
 
             document.addEventListener('pointerdown', (e) => {
@@ -68,7 +69,7 @@
     </script>
     <h1>One Button</h1>
 	<h1>-</h1>
-	<h1>-</h1>
+	<h1 id="opened">-</h1>
 	<h1><a href="https://onebutton.alessiobellino.com/smip.html">Reload</a></h1>
 	
 		<style>
