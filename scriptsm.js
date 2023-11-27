@@ -187,7 +187,7 @@ function step(timestamp) {
 		let angleChange=parseInt(angle%eachAngle);
 		//console.log("tick", angleChange);
 		if (angleChange != prevAngle){
-			console.log("tick:", angleChange)
+			console.log("tick:",angle,eachAngle, angleChange)
 			prevAngle=angleChange;
 		}
 
