@@ -24,7 +24,7 @@
 
             document.addEventListener('pointerdown', (e) => {
 				console.log(e);
-				window.navigator.vibrate(100);
+				//window.navigator.vibrate(100);
                 startX = e.clientX;
                 isTouching = true;
                 conn.send({ ev: 'p' }); // Invia l'evento di pressione
@@ -53,7 +53,7 @@
 			conn.on('data', (data) => {
                 if (data.ev === 'v') {
                     console.log('Vibra');
-					window.navigator.vibrate(100);
+					//window.navigator.vibrate(100);
                 } 
             });
         }
@@ -83,7 +83,7 @@ touch-action: none;
 }
 	</style>
 
-	<script src="iphmod.js" type="module"></script>
+	<!-- <script src="iphmod.js" type="module"></script> -->
 
 </body>
 </html>
