@@ -147,6 +147,8 @@ function step(timestamp) {
 
 		var pulseFreqMin=200;
 		var pulseFreqMax=1200;
+
+		/*
 		if (timestamp-rotationRtm > convertRange(Math.abs(afterTouch), [0, 31], [pulseFreqMax, pulseFreqMin])){
 			//console.log('ok', rotationRtm, timestamp);
 			console.log('aftertouch', afterTouch);
@@ -154,7 +156,7 @@ function step(timestamp) {
 			playPulse();
 			smConn.send({ ev: 'v' });
 		}
-		
+		*/
 		
 		
 		var macConst=1.8;
@@ -189,6 +191,8 @@ function step(timestamp) {
 		if (angleChange != prevAngle){
 			console.log("tick:",angle,eachAngle, angleChange)
 			prevAngle=angleChange;
+			playPulse();
+			smConn.send({ ev: 'v' });
 		}
 
 		
