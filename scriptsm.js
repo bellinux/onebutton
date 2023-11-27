@@ -9,7 +9,7 @@ let increment=0.1;
 let speedFactor=6;
 
 let pressedThreshold=300;
-let eachAngle=45;
+let eachAngle=30;
 let prevAngle=0;
 const now = Tone.now()
 const startValue=220;
