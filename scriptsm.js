@@ -183,6 +183,8 @@ function step(timestamp) {
 		xMov=Math.sin(increment);
 		
 		var angle=parseInt((Math.atan2(yMov, xMov) * (180/Math.PI))) - 135;
+		console.log("tick", parseInt(angle%15));
+
 		
 		
 		dot.style.transform = "rotate("+angle+"deg)";
