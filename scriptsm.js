@@ -187,9 +187,9 @@ function step(timestamp) {
 		
 		var angle=parseInt((Math.atan2(yMov, xMov) * (180/Math.PI))) - 135;
 		let angleChange=parseInt((angle-45)/eachAngle);
-		console.log("angle", angle);
+		//console.log("angle", angle);
 		if (angleChange != prevAngle){
-			console.log("tick:",angle,eachAngle, angleChange)
+			//console.log("tick:",angle,eachAngle, angleChange)
 			prevAngle=angleChange;
 			playPulse();
 			smConn.send({ ev: 'v' });
