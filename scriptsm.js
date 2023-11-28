@@ -406,7 +406,7 @@ function download_csv() {
 
   hiddenElement.href = 'data:attachment/text,' + encodeURI(textToSave);
   hiddenElement.target = '_blank';
-  hiddenElement.download = Date.now()+'.csv';
+  hiddenElement.download = conditions.reverse().join("+")+"_"+Date.now()+'.csv';
   hiddenElement.click();
 }
 
