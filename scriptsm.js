@@ -149,15 +149,7 @@ function step(timestamp) {
 		var pulseFreqMin=200;
 		var pulseFreqMax=1200;
 
-		/*
-		if (timestamp-rotationRtm > convertRange(Math.abs(afterTouch), [0, 31], [pulseFreqMax, pulseFreqMin])){
-			//console.log('ok', rotationRtm, timestamp);
-			console.log('aftertouch', afterTouch);
-			rotationRtm=timestamp;
-			playPulse();
-			smConn.send({ ev: 'v' });
-		}
-		*/
+	
 		
 		
 		var macConst=1.8;
@@ -194,7 +186,9 @@ function step(timestamp) {
 			prevAngle=angleChange;
 			if (conditions[2]=="h"){
 				playPulse();
-				smConn.send({ ev: 'v' });
+				if (smConn){
+					smConn.send({ ev: 'v' });
+				}
 			}
 		}
 
