@@ -144,7 +144,11 @@ function step(timestamp) {
 	
 	
 	
-	
+	if (condition[0]=="h" && hiding==true){
+		dot.style.opacity=0;
+	} else {
+		dot.style.opacity=1;
+	}
 	
 	dot.style.left = pLeft + "px";
 	dot.style.top = pTop + "px";
