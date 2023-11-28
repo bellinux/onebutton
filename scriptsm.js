@@ -15,7 +15,7 @@ const now = Tone.now()
 const startValue=220;
 const osc = new Tone.Oscillator();//.toDestination();
 
-
+let conditions=location.search.substr(1).split(",");
 const sampler = new Tone.Sampler({
 			urls: {
 				A0: "A0.mp3",
@@ -117,8 +117,9 @@ function step(timestamp) {
 		
 		pianoPanner.pan.rampTo(rtmPanner, now);
 		
-		
-		sampler.connect(pianoPanner).triggerAttackRelease([rtmTone], 0.1, "+0", toneVolume[volumeIndex]/127);
+		if (conditions[1]=="s"){
+			sampler.connect(pianoPanner).triggerAttackRelease([rtmTone], 0.1, "+0", toneVolume[volumeIndex]/127);
+		}
 		
 		if (volumeIndex==1){
 			volumeIndex=0;
@@ -191,8 +192,10 @@ function step(timestamp) {
 		if (angleChange != prevAngle){
 			//console.log("tick:",angle,eachAngle, angleChange)
 			prevAngle=angleChange;
-			playPulse();
-			smConn.send({ ev: 'v' });
+			if (conditions[2]=="h"){
+				playPulse();
+				smConn.send({ ev: 'v' });
+			}
 		}
 
 		
@@ -204,10 +207,11 @@ function step(timestamp) {
 		//console.log(sonicPanner);
 		
 		//if (sonicPanner>0) { sonicPanner=1; } else {sonicPanner=-1;}
-		
-		panner.pan.rampTo(sonicPanner, now);
-		osc.volume.rampTo(-10, 0.05);
-		osc.connect(panner).frequency.rampTo(parseInt(startValue+sonicAngle), now);
+		if (conditions[1]=="s"){
+			panner.pan.rampTo(sonicPanner, now);
+			osc.volume.rampTo(-10, 0.05);
+			osc.connect(panner).frequency.rampTo(parseInt(startValue+sonicAngle), now);
+		}
 		
 	} else {
 		//osc.volume.rampTo(-Infinity, 0.05);
@@ -257,7 +261,9 @@ function downFunction(volume){
 		rotating=true;
 		oldDiff=diff;
 		oldSpeedFactor=speedFactor;
-		osc.start();
+		if (conditions[1]=="s"){
+			osc.start();
+		}
 
 	}, pressedThreshold)
 	
@@ -517,16 +523,18 @@ window.fetch(pulse)
    
 pulseVolume=10;
 function playPulse(){
-	var source = audioCtx.createBufferSource();
-	source.buffer = myArrayBuffer;
-	
-	var gainNode = audioCtx.createGain()
-	gainNode.gain.value = pulseVolume/10; 
-	gainNode.connect(audioCtx.destination)
-	
-	
-	source.connect(gainNode);
-	source.start();
+	if (conditions[1]=="s"){
+		var source = audioCtx.createBufferSource();
+		source.buffer = myArrayBuffer;
+		
+		var gainNode = audioCtx.createGain()
+		gainNode.gain.value = pulseVolume/10; 
+		gainNode.connect(audioCtx.destination)
+		
+		
+		source.connect(gainNode);
+		source.start();
+	}
 }
 
 
