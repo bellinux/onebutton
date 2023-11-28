@@ -355,11 +355,15 @@ function iterateLines(){
 	setTimeout(function(){ 
 	
 		let pointLine=pointSequence[pointIndex].split(",");
-
-		//invert X
-		pointLine[3]=Math.abs(pointLine[3]-2561);
-		//invert Y
-		pointLine[4]=Math.abs(pointLine[4]-1198);
+		
+		if (conditions[3]=="1"){
+			//invert X
+			pointLine[3]=Math.abs(pointLine[3]-2561);
+		}
+		if (conditions[4]=="1"){
+			//invert Y
+			pointLine[4]=Math.abs(pointLine[4]-1198);
+		}
 		
 		if (pointIndex==1){
 			target.classList.add("transition");
