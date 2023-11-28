@@ -96,7 +96,7 @@ function step(timestamp) {
 		prevEachxSecond=eachxSecond;
 		if (eachxSecond==0){
 			hiding=!hiding;
-			console.log("Hiding:" hiding);
+			console.log("Hiding:", hiding);
 		}
 	}
 	
