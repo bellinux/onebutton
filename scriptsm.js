@@ -553,7 +553,7 @@ peer.on('connection', (conn) => {
             console.log('Evento di movimento:', data.deltaX);	
 			afterTouch=0;
 			if (data.deltaX!=0) {
-				afterTouch=(data.deltaX*2.7)*-1;
+				afterTouch=(data.deltaX*2.0)*-1;
 			}
 			//conn.send({ ev: 'v' });
         } else if (data.ev === 'r') {
