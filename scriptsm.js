@@ -84,10 +84,21 @@ var rotationRtm=0;
 function convertRange( value, r1, r2 ) { 
     return ( value - r1[ 0 ] ) * ( r2[ 1 ] - r2[ 0 ] ) / ( r1[ 1 ] - r1[ 0 ] ) + r2[ 0 ];
 }
+var hidingSeconds=5;
+var prevEachxSecond=0
 
+var hiding=false;
 function step(timestamp) {
 	
-	//console.log(timestamp);
+	console.log(timestamp);
+	var eachxSecond=parseInt(timestamp/1000)%hidingSeconds;
+	if (eachxSecond!=prevEachxSecond){
+		prevEachxSecond=eachxSecond;
+		if (eachxSecond==0){
+			hiding=!hiding;
+			console.log("Hiding:" hiding);
+		}
+	}
 	
 
 	if (speedFactor<diff){
