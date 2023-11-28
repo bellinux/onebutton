@@ -90,7 +90,7 @@ var prevEachxSecond=0
 var hiding=false;
 function step(timestamp) {
 	
-	console.log(timestamp);
+	//console.log(timestamp);
 	var eachxSecond=parseInt(timestamp/1000)%hidingSeconds;
 	if (eachxSecond!=prevEachxSecond){
 		prevEachxSecond=eachxSecond;
@@ -355,6 +355,12 @@ function iterateLines(){
 	setTimeout(function(){ 
 	
 		let pointLine=pointSequence[pointIndex].split(",");
+
+		//invert X
+		pointLine[3]=Math.abs(pointLine[3]-2600);
+		//invert Y
+		pointLine[4]=Math.abs(pointLine[4]-1100);
+		
 		if (pointIndex==1){
 			target.classList.add("transition");
 			dot.style.left = pointLine[3]/1.4 + "px";
