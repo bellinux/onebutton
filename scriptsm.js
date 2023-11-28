@@ -357,9 +357,9 @@ function iterateLines(){
 		let pointLine=pointSequence[pointIndex].split(",");
 
 		//invert X
-		pointLine[3]=Math.abs(pointLine[3]-2600);
+		pointLine[3]=Math.abs(pointLine[3]-2561);
 		//invert Y
-		pointLine[4]=Math.abs(pointLine[4]-1100);
+		pointLine[4]=Math.abs(pointLine[4]-1198);
 		
 		if (pointIndex==1){
 			target.classList.add("transition");
