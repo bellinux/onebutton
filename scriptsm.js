@@ -130,7 +130,7 @@ function step(timestamp) {
 		prevEachxSecond=eachxSecond;
 		if (eachxSecond==0){
 			hiding=!hiding;
-			console.log("Hiding:", hiding);
+			//console.log("Hiding:", hiding);
 		}
 	}
 	
@@ -161,7 +161,7 @@ function step(timestamp) {
 		
 		rtmTone=altezzaAFrequenza(pTop-10);
 		
-		console.log(rtmTone);
+		console.log("PianoFreq: ", rtmTone);
 		
 		
 		pianoPanner.pan.rampTo(rtmPanner, now);
@@ -257,7 +257,7 @@ function step(timestamp) {
 		if (conditions[1]=="s"){
 			panner.pan.rampTo(sonicPanner, now);
 			osc.volume.rampTo(-10, 0.05);
-			console.log("angle:", sonicAngle)
+			console.log("angle:", sonicAngle, "freq: ", angoloAFrequenza(sonicAngle))
 			//osc.connect(panner).frequency.rampTo(parseInt(startValue+sonicAngle), now);
 			osc.connect(panner).frequency.rampTo(parseInt(angoloAFrequenza(sonicAngle)), now);
 		}
