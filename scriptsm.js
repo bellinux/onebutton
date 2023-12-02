@@ -13,6 +13,23 @@ let eachAngle=30;
 let prevAngle=0;
 const now = Tone.now()
 const startValue=220;
+
+
+function angoloAFrequenza(angolo) {
+
+        // Calcoliamo la variazione logaritmica per semitono
+        var semitono = angolo / 180;
+
+        // Frequenza di riferimento per La basso (220 Hz)
+        var frequenzaDiRiferimento = 220;
+
+        // Calcoliamo la frequenza in base alla variazione logaritmica
+        var frequenza = frequenzaDiRiferimento * Math.pow(2, 2 * semitono);
+
+        return frequenza;
+   
+}
+
 const osc = new Tone.Oscillator();//.toDestination();
 
 let conditions=location.search.substr(1).split(",");
@@ -219,7 +236,8 @@ function step(timestamp) {
 		if (conditions[1]=="s"){
 			panner.pan.rampTo(sonicPanner, now);
 			osc.volume.rampTo(-10, 0.05);
-			osc.connect(panner).frequency.rampTo(parseInt(startValue+sonicAngle), now);
+			//osc.connect(panner).frequency.rampTo(parseInt(startValue+sonicAngle), now);
+			osc.connect(panner).frequency.rampTo(parseInt(angoloAFrequenza(sonicAngle)), now);
 		}
 		
 	} else {
