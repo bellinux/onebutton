@@ -144,7 +144,7 @@ function step(timestamp) {
 	let pTop=(parseFloat(compStyles.getPropertyValue('top')) + (yMov/speedFactor));
 	
 	if (pLeft<10) {pLeft=10;  /* xMov=xMov*-1; increment+=3.14; */  };
-	if (pTop<10) {pTop=10; /* yMov=yMov*-1; increment+=3.14; */ };
+	//if (pTop<10) {pTop=10; /* yMov=yMov*-1; increment+=3.14; */ };
 	
 	if (pLeft>window.innerWidth-30) { pLeft=window.innerWidth-30; /*  xMov=xMov*-1; increment+=3.14; */ };
 	if (pTop>window.innerHeight-30) { pTop=window.innerHeight-30; /*  yMov=yMov*-1; increment+=3.14; */ };
