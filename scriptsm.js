@@ -158,7 +158,7 @@ function step(timestamp) {
 		//rtmTone=Math.abs(pTop-window.innerHeight)+200;
 		
 		rtmTone=altezzaAFrequenza(pTop-10);
-		rtmTone=Math.abs(rtmTone-660);
+		rtmTone=Math.abs(rtmTone-(880+220));
 		console.log(rtmTone);
 		
 		
@@ -255,6 +255,7 @@ function step(timestamp) {
 		if (conditions[1]=="s"){
 			panner.pan.rampTo(sonicPanner, now);
 			osc.volume.rampTo(-10, 0.05);
+			console.log("angle:", sonicAngle)
 			//osc.connect(panner).frequency.rampTo(parseInt(startValue+sonicAngle), now);
 			osc.connect(panner).frequency.rampTo(parseInt(angoloAFrequenza(sonicAngle)), now);
 		}
