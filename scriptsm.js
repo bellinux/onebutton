@@ -153,7 +153,7 @@ function step(timestamp) {
 	if ((timestamp-timeRtm)>rtmDiff && soundRtmBool && rotating==false) {
 		
 		rtmPanner=((2/window.innerWidth)*pLeft)-1;
-		console.log("ptop:" ,pTop);
+		console.log("Altezza:", pTop-10);
 		
 		rtmTone=Math.abs(pTop-window.innerHeight)+200;
 		//console.log(rtmTone);
