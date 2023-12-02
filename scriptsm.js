@@ -33,6 +33,8 @@ function angoloAFrequenza(angolo) {
 function altezzaAFrequenza(altezza) {
 
         // Calcoliamo la variazione logaritmica per semitono
+
+	altezza=Math.abs(altezza-(window.innerHeight-40))
         var semitono = altezza / (window.innerHeight-40);
 
         // Frequenza di riferimento per La basso (220 Hz)
@@ -158,7 +160,7 @@ function step(timestamp) {
 		//rtmTone=Math.abs(pTop-window.innerHeight)+200;
 		
 		rtmTone=altezzaAFrequenza(pTop-10);
-		rtmTone=Math.abs(rtmTone-(880+220));
+		
 		console.log(rtmTone);
 		
 		
