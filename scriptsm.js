@@ -158,7 +158,7 @@ function step(timestamp) {
 		//rtmTone=Math.abs(pTop-window.innerHeight)+200;
 		
 		rtmTone=altezzaAFrequenza(pTop-10);
-		rtmTone=Math.abs(rtmTone-880);
+		rtmTone=Math.abs(rtmTone-660);
 		console.log(rtmTone);
 		
 		
