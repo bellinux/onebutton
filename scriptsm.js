@@ -30,6 +30,21 @@ function angoloAFrequenza(angolo) {
    
 }
 
+function altezzaAFrequenza(altezza) {
+
+        // Calcoliamo la variazione logaritmica per semitono
+        var semitono = altezza / window.innerHeight;
+
+        // Frequenza di riferimento per La basso (220 Hz)
+        var frequenzaDiRiferimento = 220;
+
+        // Calcoliamo la frequenza in base alla variazione logaritmica
+        var frequenza = frequenzaDiRiferimento * Math.pow(2, 2 * semitono);
+
+        return frequenza;
+   
+}
+
 const osc = new Tone.Oscillator();//.toDestination();
 
 let conditions=location.search.substr(1).split(",");
@@ -138,7 +153,7 @@ function step(timestamp) {
 	if ((timestamp-timeRtm)>rtmDiff && soundRtmBool && rotating==false) {
 		
 		rtmPanner=((2/window.innerWidth)*pLeft)-1;
-		//console.log(rtmPanner);
+		console.log("ptop:" ,pTop);
 		
 		rtmTone=Math.abs(pTop-window.innerHeight)+200;
 		//console.log(rtmTone);
