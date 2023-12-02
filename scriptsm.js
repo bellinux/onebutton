@@ -33,7 +33,7 @@ function angoloAFrequenza(angolo) {
 function altezzaAFrequenza(altezza) {
 
         // Calcoliamo la variazione logaritmica per semitono
-        var semitono = altezza / window.innerHeight;
+        var semitono = altezza / (window.innerHeight-40);
 
         // Frequenza di riferimento per La basso (220 Hz)
         var frequenzaDiRiferimento = 220;
@@ -153,10 +153,13 @@ function step(timestamp) {
 	if ((timestamp-timeRtm)>rtmDiff && soundRtmBool && rotating==false) {
 		
 		rtmPanner=((2/window.innerWidth)*pLeft)-1;
-		console.log("Altezza:", pTop-10);
+		//console.log("Altezza:", pTop-10);
 		
-		rtmTone=Math.abs(pTop-window.innerHeight)+200;
-		//console.log(rtmTone);
+		//rtmTone=Math.abs(pTop-window.innerHeight)+200;
+		
+		rtmTone=altezzaAFrequenza(pTop-10);
+		console.log(rtmTone);
+		
 		
 		pianoPanner.pan.rampTo(rtmPanner, now);
 		
