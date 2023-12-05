@@ -36,12 +36,23 @@
                     let deltaX = e.clientX - startX;
 					deltaX=parseInt(deltaX);
 					console.log(deltaX);
-					if (Math.abs(deltaX) < 10 && oldDeltaX!=deltaX){
+
+			if (deltaX < -16){
+				deltaX=-16;
+			}
+
+			if (deltaX > 16){
+				deltaX=16;
+			}
+				
+			if (oldDeltaX!=deltaX){
 					
-						conn.send({ ev: 'm', deltaX });
-					}
+				conn.send({ ev: 'm', deltaX });
+				oldDeltaX=deltaX;
+			}
 						
-					oldDeltaX=deltaX;
+				
+			
                 }
             });
 
