@@ -392,7 +392,7 @@ function upFunction(){
 let pointIndex=0;
 let coordinates="timestamp;ghostX;ghostY;targetX;targetY\n";
 let speedTargetMS=272;
-speedTargetMS=30;
+//speedTargetMS=30;
 function iterateLines(){
 	setTimeout(function(){ 
 	
