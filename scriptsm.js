@@ -406,13 +406,13 @@ function iterateLines(){
 			pointLine[4]=Math.abs(pointLine[4]-1198);
 		}
 
-		var xScale=2561/(window.innerWidth-10);
-		var yScale=1198/(window.innerHeight-10);
+		var xScale=2561/(window.innerWidth-20);
+		var yScale=1198/(window.innerHeight-20);
 		
 		if (pointIndex==1){
 			target.classList.add("transition");
-			dot.style.left = 10+(pointLine[3]/xScale) + "px";
-			dot.style.top = 10+(pointLine[4]/yScale) + "px";
+			dot.style.left = 4+(pointLine[3]/xScale) + "px";
+			dot.style.top = 4+(pointLine[4]/yScale) + "px";
 		}
 
 		
@@ -420,8 +420,8 @@ function iterateLines(){
 		pointIndex++;
 		//console.log(pointIndex, pointLine);
 		
-		target.style.left = 10+(pointLine[3]/xScale) + "px";
-		target.style.top = 10+(pointLine[4]/yScale) + "px";
+		target.style.left = 4+(pointLine[3]/xScale) + "px";
+		target.style.top = 4+(pointLine[4]/yScale) + "px";
 		
 		
 		
