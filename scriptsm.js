@@ -397,14 +397,17 @@ function iterateLines(){
 	setTimeout(function(){ 
 	
 		let pointLine=pointSequence[pointIndex].split(",");
-		
+		var leftMargin=0;
 		if (conditions[3]=="1"){
 			//invert X
+			leftMargin=window.innerWidth*0.1;
 			pointLine[3]=Math.abs(pointLine[3]-2561);
 		}
+		var topMargin=0;
 		if (conditions[4]=="1"){
 			//invert Y
 			pointLine[4]=Math.abs(pointLine[4]-1198);
+			topMargin=window.innerHeight*0.1;
 		}
 
 		var xScale=2681/(window.innerWidth-30);
@@ -412,8 +415,8 @@ function iterateLines(){
 		
 		if (pointIndex==1){
 			target.classList.add("transition");
-			dot.style.left = 4+(pointLine[3]/xScale) + "px";
-			dot.style.top = 4+(pointLine[4]/yScale) + "px";
+			dot.style.left = 4+leftMargin+(pointLine[3]/xScale) + "px";
+			dot.style.top = 4+topMargin+(pointLine[4]/yScale) + "px";
 		}
 
 		
