@@ -406,8 +406,8 @@ function iterateLines(){
 			pointLine[4]=Math.abs(pointLine[4]-1198);
 		}
 
-		var xScale=2561/(window.innerWidth-20);
-		var yScale=1198/(window.innerHeight-20);
+		var xScale=2561/(window.innerWidth-30);
+		var yScale=1198/(window.innerHeight-30);
 		
 		if (pointIndex==1){
 			target.classList.add("transition");
