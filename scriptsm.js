@@ -400,14 +400,14 @@ function iterateLines(){
 		var leftMargin=0;
 		if (conditions[3]=="1"){
 			//invert X
-			leftMargin=window.innerWidth*0.1;
+			leftMargin=window.innerWidth*0.05;
 			pointLine[3]=Math.abs(pointLine[3]-2561);
 		}
 		var topMargin=0;
 		if (conditions[4]=="1"){
 			//invert Y
 			pointLine[4]=Math.abs(pointLine[4]-1198);
-			topMargin=window.innerHeight*0.1;
+			topMargin=window.innerHeight*0.05;
 		}
 
 		var xScale=2681/(window.innerWidth-30);
