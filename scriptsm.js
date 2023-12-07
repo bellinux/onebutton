@@ -404,18 +404,23 @@ function iterateLines(){
 			//invert Y
 			pointLine[4]=Math.abs(pointLine[4]-1198);
 		}
+
+		var xScale=2561/window.innerWidth;
+		var yScale=1198/window.innerHeight;
 		
 		if (pointIndex==1){
 			target.classList.add("transition");
-			dot.style.left = pointLine[3]/1.4 + "px";
-			dot.style.top = pointLine[4]/1.4 + "px";
+			dot.style.left = pointLine[3]/xScale + "px";
+			dot.style.top = pointLine[4]/yScale + "px";
 		}
+
+		
 		
 		pointIndex++;
 		//console.log(pointIndex, pointLine);
 		
-		target.style.left = pointLine[3]/1.4 + "px";
-		target.style.top = pointLine[4]/1.4 + "px";
+		target.style.left = pointLine[3]/xScale + "px";
+		target.style.top = pointLine[4]/yScale + "px";
 		
 		
 		
