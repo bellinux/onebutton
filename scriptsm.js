@@ -391,6 +391,7 @@ function upFunction(){
 
 let pointIndex=0;
 let coordinates="timestamp;ghostX;ghostY;targetX;targetY\n";
+let speedTargetMS=272;
 function iterateLines(){
 	setTimeout(function(){ 
 	
@@ -405,8 +406,8 @@ function iterateLines(){
 			pointLine[4]=Math.abs(pointLine[4]-1198);
 		}
 
-		var xScale=2561/window.innerWidth;
-		var yScale=1198/window.innerHeight;
+		var xScale=2561/(window.innerWidth-20);
+		var yScale=1198/(window.innerHeight-20);
 		
 		if (pointIndex==1){
 			target.classList.add("transition");
@@ -440,7 +441,7 @@ function iterateLines(){
 			
 		}
 		
-	}, 272);
+	}, speedTargetMS);
 }
 //iterateLines();
 
