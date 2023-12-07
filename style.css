@@ -28,5 +28,5 @@ body, html{
 }
 
 .transition{
-	transition: all 283ms linear;
+	/* transition: all 283ms linear; */
 }
