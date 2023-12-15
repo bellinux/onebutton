@@ -390,7 +390,7 @@ function upFunction(){
 }
 
 let pointIndex=0;
-let coordinates="timestamp;ghostX;ghostY;x;y;hideShow;userInteraction\n";
+let coordinates="timestamp;ghostX;ghostY;x;y;hideShow;userInteraction;timestamp\n";
 let speedTargetMS=272;
 //speedTargetMS=30;
 function iterateLines(){
@@ -431,7 +431,7 @@ function iterateLines(){
 		
 		if (pointIndex<pointSequence.length){
 			iterateLines();
-			coordinates+=Date.now()+";"+parseInt(getOffset(target).left)+";"+parseInt(getOffset(target).top)+";"+parseInt(getOffset(dot).left)+";"+parseInt(getOffset(dot).top)+";"+hiding+";"+interactionUser+"\n";
+			coordinates+=Date.now()+";"+parseInt(getOffset(target).left)+";"+parseInt(getOffset(target).top)+";"+parseInt(getOffset(dot).left)+";"+parseInt(getOffset(dot).top)+";"+hiding+";"+interactionUser+";"+Date.now()+"\n";
 		
 		
 		} else {
