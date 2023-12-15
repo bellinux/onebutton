@@ -390,7 +390,7 @@ function upFunction(){
 }
 
 let pointIndex=0;
-let coordinates="timestamp;ghostX;ghostY;x;y\n";
+let coordinates="timestamp;ghostX;ghostY;x;y;hideShow;userInteraction\n";
 let speedTargetMS=272;
 //speedTargetMS=30;
 function iterateLines(){
@@ -431,7 +431,7 @@ function iterateLines(){
 		
 		if (pointIndex<pointSequence.length){
 			iterateLines();
-			coordinates+=Date.now()+";"+parseInt(getOffset(target).left)+";"+parseInt(getOffset(target).top)+";"+parseInt(getOffset(dot).left)+";"+parseInt(getOffset(dot).top)+"\n";
+			coordinates+=Date.now()+";"+parseInt(getOffset(target).left)+";"+parseInt(getOffset(target).top)+";"+parseInt(getOffset(dot).left)+";"+parseInt(getOffset(dot).top)+";"+hiding+";"+interactionUser+"\n";
 		
 		
 		} else {
@@ -615,13 +615,14 @@ const peer = new Peer("onebutton-sm-ab-com"); // Inizializza PeerJS
 peer.on('open', (id) => {
      console.log('ID del ricevitore:', id);
 });
-
+var interactionUser=0;
 var smConn;
 peer.on('connection', (conn) => {
 	smConn=conn;
     conn.on('data', (data) => {
         if (data.ev === 'p') {
             console.log('Evento di pressione.');
+			interactionUser++;
 			downFunction(100);
 			eventLines.push('<br>'+'<span style="background: #ff0;">Press</span>');
 			upEnabled=true;
@@ -630,6 +631,7 @@ peer.on('connection', (conn) => {
             console.log('Evento di movimento:', data.deltaX);	
 			afterTouch=0;
 			if (data.deltaX!=0) {
+				interactionUser++;
 				afterTouch=(data.deltaX*1.4)*-1;
 			}
 			//conn.send({ ev: 'v' });
@@ -637,6 +639,7 @@ peer.on('connection', (conn) => {
             console.log('Evento di rilascio.');
 			eventLines.push('<br>'+'<span style="background: #ff0;">Release</span>');
 			upFunction();
+			interactionUser++;
 			upEnabled=false
         }
     });
