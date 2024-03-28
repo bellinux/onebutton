@@ -1,0 +1,67 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.48/Tone.js" integrity="sha512-jhAfSzX/sGhuTEnq48xvglsrDI33dNcmsrEbx45YMkd3K0s8eMIeIsgLZav6gQ5xpwMFUioN6iy7YbEOAzzUiA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+
+  <title>HapticSound AB</title>
+
+
+
+</head>
+
+<body>
+
+</body>
+
+<script>
+const player = new Tone.Player({
+	url: "stones.mp3",
+	loop: true,
+	autostart: false,
+})
+var variate = new Tone.Volume(0).toDestination();
+player.connect(variate);
+
+document.querySelector('html')?.addEventListener('click', async () => {
+	
+	
+	await Tone.start()
+	console.log('audio is ready')
+	document.querySelector('html').addEventListener("touchstart", handleStart);
+	document.querySelector('html').addEventListener("touchmove", handleMove);
+
+	
+})
+
+async function handleStart(){
+	player.start();
+	
+	document.querySelector('html').addEventListener("touchend", handleEnd);
+}
+
+
+async function handleEnd(){
+	player.stop();
+}
+
+function handleMove(e){
+	console.log(e.touches[0].clientY/screen.height)
+	let val=e.touches[0].clientY/screen.height;
+	//create a distortion effect
+	let val2=(val*56) - 32;
+	
+	variate.volume.rampTo(val2, 0.05);
+}
+
+
+
+
+
+
+
+</script>
+</html>
