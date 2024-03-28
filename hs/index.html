@@ -12,22 +12,40 @@
  
 
 </head>
+	<style>
+
+		body {
+    overflow: hidden;
+	margin:0;border:0;padding:0;
+}
+
+#container {
+    height: 100vh;
+	width:100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+	background: green;
+}
+	</style>
 
 <body>
+	<div id="container">
+		
+	</div>
 
 </body>
 
 <script>
 const player = new Tone.Player({
-	url: "stones.mp3",
+	url: "stones.mp3", //https://tonejs.github.io/audio/berklee/gong_1.mp3
 	loop: true,
 	autostart: false,
 })
 var variate = new Tone.Volume(0).toDestination();
 player.connect(variate);
 
-document.querySelector('html').addEventListener("touchstart", handleStart);
-document.querySelector('html').addEventListener("touchmove", handleMove);
+document.querySelector('#container').addEventListener("touchstart", handleStart);
+document.querySelector('#container').addEventListener("touchmove", handleMove);
 
 
 async function handleStart(){
@@ -36,7 +54,7 @@ async function handleStart(){
 	
 	player.start();
 	
-	document.querySelector('html').addEventListener("touchend", handleEnd);
+	document.querySelector('#container').addEventListener("touchend", handleEnd);
 }
 
 
@@ -63,3 +81,4 @@ function handleMove(e){
 
 </script>
 </html>
+
