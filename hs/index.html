@@ -26,18 +26,14 @@ const player = new Tone.Player({
 var variate = new Tone.Volume(0).toDestination();
 player.connect(variate);
 
-document.querySelector('html')?.addEventListener('click', async () => {
-	
-	
-	await Tone.start()
-	console.log('audio is ready')
-	document.querySelector('html').addEventListener("touchstart", handleStart);
-	document.querySelector('html').addEventListener("touchmove", handleMove);
+document.querySelector('html').addEventListener("touchstart", handleStart);
+document.querySelector('html').addEventListener("touchmove", handleMove);
 
-	
-})
 
 async function handleStart(){
+	await Tone.start()
+	console.log('audio is ready');
+	
 	player.start();
 	
 	document.querySelector('html').addEventListener("touchend", handleEnd);
@@ -56,6 +52,8 @@ function handleMove(e){
 	
 	variate.volume.rampTo(val2, 0.05);
 }
+
+
 
 
 
