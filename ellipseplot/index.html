@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>EllipsePlot</title>
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+</head>
+<body>
+
+	<style>
+		#ellipsePlot {
+			display:block;
+		}
+	</style>
+	
+	    <h3>Cambia il JSON e premi aggiorna</h3>
+    <textarea id="jsonData" rows="15" cols="180">
+{
+	"width": 1920,
+	"height": 1080,
+	"lineEachX": 40,
+	"lineEachY": 25,
+	"scaleTextSize": 20,
+	"legendTextSize": 26,
+	"titleTextSize": 25,
+	"color": "#0b1",
+	"groups": [
+		{ 
+			"name": "Duplets", 
+			"distributionX": [20, 40, 54, 98, 65, 15, 150, 210, 60, 80, 100],
+			"distributionY": [20, 40, 54, 98, 65, 15, 150, 210, 60, 80, 100]
+		},
+		{ 	"name": "Triplets", 
+			"distributionX": [20, 40, 60, 16, 154, 25, 24, 89, 65, 120, 80, 100],
+			"distributionY": [20, 40, 54, 98, 65, 15, 54, 64, 54, 135, 145, 125, 139, 150, 210, 60, 80, 100]
+		}
+	]
+}
+    </textarea>
+    <br>
+    <button onclick="updateData()">Aggiorna</button>
+	
+	
+    
+	<svg id="ellipsePlot"></svg>
+	
+	
+    <script>
+
+	
+	        
+        let data = {};
+		
+		function calculatePercentiles(numbers) {
+			numbers.sort((a, b) => a - b);
+			const min = numbers[0];
+			const max = numbers[numbers.length - 1];
+			const median = percentile(numbers, 0.5);
+			const p25 = percentile(numbers, 0.25);
+			const p75 = percentile(numbers, 0.75);
+
+			return [min, p25, median, p75, max];
+		}
+
+		function percentile(numbers, p) {
+			const index = (numbers.length - 1) * p;
+			const lower = Math.floor(index);
+			const upper = Math.ceil(index);
+			const weight = index % 1;
+
+			if (upper >= numbers.length) return numbers[lower];
+			return numbers[lower] * (1 - weight) + numbers[upper] * weight;
+		}
+
+        function updateData() {
+            try {
+				document.getElementById('ellipsePlot').innerHTML="";
+                const jsonData = document.getElementById('jsonData').value;
+                data = JSON.parse(jsonData);
+				const width = data.width;
+				const height = data.height;
+				const margin = 50;
+				const legendSpace = 40;
+				const extraSpace = 30;
+
+				const radiiGroups = data.groups.map(group => ({
+					name: group.name,
+					radiiX: calculatePercentiles(group.distributionX),
+					radiiY: calculatePercentiles(group.distributionY)
+				}));
+
+				const svg = d3.select('#ellipsePlot')
+					.attr('width', width + margin + extraSpace)
+					.attr('height', height + legendSpace + extraSpace);
+
+				svg.append('rect')
+					.attr('x', margin)
+					.attr('y', extraSpace)
+					.attr('width', width)
+					.attr('height', height)
+					.attr('fill', 'none')
+					.attr('stroke', 'black')
+					.attr('stroke-width', '1');
+
+				const groupWidth = width / radiiGroups.length;
+
+				radiiGroups.forEach((group, index) => {
+					const groupCenter = margin + groupWidth * (index + 0.5);
+
+					const g = svg.append('g')
+						.attr('transform', `translate(${groupCenter}, ${height / 2 + extraSpace})`);
+
+					g.append('ellipse')
+						.attr('cx', 0)
+						.attr('cy', 0)
+						.attr('rx', group.radiiX[3])
+						.attr('ry', group.radiiY[3])
+						.attr('fill', data.color);
+
+					g.append('ellipse')
+						.attr('cx', 0)
+						.attr('cy', 0)
+						.attr('rx', group.radiiX[1])
+						.attr('ry', group.radiiY[1])
+						.attr('fill', 'white');
+
+					group.radiiX.forEach((radius, index) => {
+						g.append('ellipse')
+							.attr('cx', 0)
+							.attr('cy', 0)
+							.attr('rx', group.radiiX[index])
+							.attr('ry', group.radiiY[index])
+							.attr('fill', 'none')
+							.attr('stroke', 'black');
+					});
+					
+					g.append('line')
+						.attr('x1', 0)
+						.attr('y1', -3)
+						.attr('x2', 0)
+						.attr('y2', 3)
+						.attr('stroke', "black")
+						
+					g.append('line')
+						.attr('x1', -3)
+						.attr('y1', 0)
+						.attr('x2', 3)
+						.attr('y2', 0)
+						.attr('stroke', "black")
+
+					svg.append('text')
+						.attr('x', groupCenter)
+						.attr('y', height + extraSpace + 30)
+						.attr('text-anchor', 'middle')
+						.attr('font-size', data.legendTextSize+'px')
+						.attr('font-family', 'sans-serif')
+						.text(group.name);
+						
+					for (let i = 0; i <= group.radiiX[4] * 1.2; i += data.lineEachX) {
+
+						g.append('line')
+							.attr('x1', i)
+							.attr('x2', i)
+							.attr('y1', 0)
+							.attr('y2', group.radiiY[4] * 1.2)
+							.attr('stroke', 'gray')
+							.attr('stroke-width', '1')
+							.attr('stroke-opacity', 0.5);
+							
+						g.append('text')
+							.attr('x', i-(6*i.toString().length))
+							.attr('y', (group.radiiY[4] * 1.2) + data.scaleTextSize)
+							.text(i)
+							.attr('font-size', data.scaleTextSize+'px')
+							.attr('font-family', 'sans-serif')
+							.attr('alignment-baseline', 'middle');
+					}
+					
+				});
+
+				for (let i = 0; i <= height / 2; i += data.lineEachY) {
+					svg.append('text')
+						.attr('x', 10)
+						.attr('y', height / 2 + extraSpace - i)
+						.text(i)
+						.attr('font-size', data.scaleTextSize+'px')
+						.attr('font-family', 'sans-serif')
+						.attr('alignment-baseline', 'middle');
+
+					svg.append('line')
+						.attr('x1', margin)
+						.attr('x2', width + margin)
+						.attr('y1', height / 2 + extraSpace - i)
+						.attr('y2', height / 2 + extraSpace - i)
+						.attr('stroke', 'gray')
+						.attr('stroke-width', '1')
+						.attr('stroke-opacity', 0.5);
+				}
+				
+				svg.append('text')
+				   .attr('x', margin + width)
+				   .attr('y', 22)
+				   .attr('text-anchor', 'end')
+				   .attr('font-size', data.titleTextSize+'px')
+				   .attr('font-weight', 'bold')
+				   .attr('font-family', 'sans-serif')
+				   .text(width+'x'+height);
+				
+				
+				
+            } catch (error) {
+				console.log(error);
+                alert('JSON non valido');
+            }
+        }
+
+	
+
+	
+      
+    </script>
+</body>
+</html>
