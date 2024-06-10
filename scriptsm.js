@@ -331,6 +331,7 @@ var diffArr=[0,0];
 var preRtmDiff=0;
 var preDiff=0;
 var recording=false;
+var hidingFalseInterval;
 
 function triggerUp(e){
 	
@@ -339,6 +340,11 @@ function triggerUp(e){
 		iterateLines();
 		recording=true;
 		target.style.display="block";
+
+		hidingFalseInterval = setInterval(function () {hiding = false}, 10);
+		setTimeout(function () {clearInterval(hidingFalseInterval)}, 10000);
+		
+		
 	}
 
 	upFunction(127);
