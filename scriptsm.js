@@ -638,7 +638,12 @@ peer.on('connection', (conn) => {
 			if (data.deltaX!=0) {
 				interactionUser++;
 				afterTouch=(data.deltaX*1.4)*-1;
-				console.log("valore aftertouch", afterTouch);
+				
+
+				if (afterTouch>7) afterTouch=7;
+				if (afterTouch<-7) afterTouch=-7;
+					console.log("valore aftertouch", afterTouch);
+				
 			}
 			//conn.send({ ev: 'v' });
         } else if (data.ev === 'r') {
