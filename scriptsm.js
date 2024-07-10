@@ -433,7 +433,7 @@ function iterateLines(){
 		
 		
 		pointIndex++;
-		//console.log(pointIndex, pointLine);
+		console.log(pointIndex, pointLine);
 		
 		target.style.left = 4+leftMargin+(pointLine[3]/xScale) + "px";
 		target.style.top = 4+topMargin+(pointLine[4]/yScale) + "px";
