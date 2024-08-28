@@ -1,0 +1,13 @@
+Demo OneButton
+
+From desktop Chrome or Firefox, launch https://onebutton.alessiobellino.com/indexsm.html?nh,s,h,0,0
+Hit a key to activate sound
+
+From mobile Chrome, launch onebutton.alessiobellino.com/sm.html
+
+To start following, hit ‘r’
+
+To visualise the performance, drag the generated .csv file onto https://onebutton.alessiobellino.com/vis.html
+
+
+
