@@ -1,0 +1,71 @@
+        body {
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        #ball {
+            width: 20px;
+            height: 20px;
+            background-color: red;
+            border-radius: 50%;
+            position: absolute;
+			opacity: 1;
+        }
+		#ballAlt {
+            width: 20px;
+            height: 20px;
+            background-color: green;
+            border-radius: 50%;
+            position: absolute;
+			opacity:0;
+        }
+        #circle {
+            width: 400px;
+            height: 400px;
+            border: 2px solid black;
+            border-radius: 50%;
+            position: absolute;
+        }
+        #info {
+            position: absolute;
+            left: 10px;
+            top: 10px;
+            font-family: Arial, sans-serif;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 10px;
+            border-radius: 5px;
+        }
+		
+		#startRandom {
+			width: 200px;
+			height: 90px;
+			right: calc(50% - 100px);
+			top:20px;
+			position:absolute;
+			background:yellow;
+		}
+		
+				#instr{
+			font-family:sans-serif;
+			top:20px;
+			position:absolute;
+			padding: 10px 80px 10px 80px;
+			text-align:center;
+			display:none;
+			
+			
+		}
+		
+		#status{
+			font-family:sans-serif;
+			top:100px;
+			position:absolute;
+			padding: 100px;
+			text-align:center;
+			display:none;
+			
+			
+		}
