@@ -270,6 +270,7 @@ function updateIndicatorsAlt() {
 	
 	if (movementStarted){
 		soundPlay=true;
+		resetPosition();
 		document.getElementById('ballAlt').style.opacity = 1;
 		setTimeout(() => {
 			
