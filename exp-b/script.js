@@ -119,8 +119,10 @@ function playSound(sound) {
 	}
 }
 
+var moveBall=true;
 // Aggiorna la posizione della palla e i suoni
 function updatePositionAndSounds(timestamp) {
+	console.log(timestamp)
     if (!lastUpdateTime) {
         lastUpdateTime = timestamp;
     }
@@ -128,7 +130,7 @@ function updatePositionAndSounds(timestamp) {
     const deltaTime = (timestamp - lastUpdateTime) / 1000; // Tempo in secondi
     lastUpdateTime = timestamp;
 
-    if (movementStarted) {
+    if (movementStarted || moveBall) {
         posX += horizontalSpeed * deltaTime * 60; // Velocità per frame (supponendo 60fps)
         posY += verticalSpeed * deltaTime * 60;
 
@@ -267,7 +269,12 @@ function updateIndicatorsAlt() {
 	
 	
 	if (movementStarted){
+		soundPlay=true;
+		document.getElementById('ballAlt').style.opacity = 1;
 		setTimeout(() => {
+			
+			soundPlay=false;
+			document.getElementById('ballAlt').style.opacity = 0;
 					//movementStarted=false;
 					//startRandomButton.click();
 					dataCSV+=currentTrial+"," + document.getElementById("speed").innerText + "," + document.getElementById("direction").innerText + "," + document.getElementById("speedAlt").innerText + "," + document.getElementById("directionAlt").innerText + "\n";
@@ -294,10 +301,15 @@ function updateIndicatorsAlt() {
 					}
 					
 					
-		}, 1200);
+		}, 3800);
 	}
 	
 	movementStarted=false;
+	moveBall=true;
+	
+	setTimeout(() => {
+		moveBall=false;
+	}, 3600);
 	
 }
 
