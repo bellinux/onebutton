@@ -255,6 +255,8 @@ function handleDrag(event) {
         } else {
             // Cambia colore del cerchio e calcola direzione/velocità al bordo
             circle.style.borderColor = "yellow";
+	    ball.style.opacity = '1';
+	    ballDrag.style.opacity = '0';
             const direction = calculateDirectionG(currentX, currentY);
             const elapsedTime = (Date.now() - startTime) / 1000; // Tiempo en segundos
             const speed = dist / elapsedTime; // Velocidad en píxeles/segundo
@@ -265,6 +267,8 @@ function handleDrag(event) {
             dataCSV += `${currentTrial},${document.getElementById("speed").innerText},${document.getElementById("direction").innerText},${speed},${direction}\n`;
 
             setTimeout(() => {
+		ball.style.opacity = '0';
+		ballDrag.style.opacity = '1';
                 // Regresa la bola al centro
                 circle.style.borderColor = "black";
                 ballDrag.style.left = `${centerX - 10}px`;
@@ -284,7 +288,7 @@ function handleDrag(event) {
 
                     document.body.style.display = "none";
                 }
-            }, 400);
+            }, 4000);
 
             // Forza il final del drag
             isDragging = false;
