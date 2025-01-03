@@ -34,7 +34,7 @@ let movementStarted = false;
 
 let speedFactor = 225;
 
-let trialNumber=5;
+let trialNumber=40;
 let currentTrial=0;
 
 let dataCSV="Trial, RandomSpeed, RandomAngle, UserSpeed, UserAngle\n";
