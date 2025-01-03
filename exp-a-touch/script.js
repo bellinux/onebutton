@@ -47,7 +47,7 @@ ball.style.top = `${centerY - 10}px`;
 
 let speedFactor=225;
 
-let trialNumber=5;
+let trialNumber=40;
 let currentTrial=0;
 
 let dataCSV="Trial, SoundSpeed, SoundAngle, MovSpeed, MovAngle\n";
@@ -248,7 +248,7 @@ function handleDrag(event) {
 
         const dist = distanceFromCenter(currentX, currentY);
 
-        if (dist <= radius) {
+        if (dist <= radius-7) {
             // Mueve la bola solo dentro del círculo
             ballDrag.style.left = `${currentX - 10}px`;
             ballDrag.style.top = `${currentY - 10}px`;
