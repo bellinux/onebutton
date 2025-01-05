@@ -37,7 +37,7 @@ let speedFactor = 225;
 let trialNumber=40;
 let currentTrial=0;
 
-let dataCSV="Trial, RandomSpeed, RandomAngle, UserSpeed, UserAngle\n";
+let dataCSV="Trial, RandomSpeed, RandomAngle, UserSpeed, UserAngle, StartMovementTime, THor, TVer\n";
 
 
 // Suoni
@@ -194,6 +194,7 @@ function newRandomSequence(){
 	generateRandomSpeed(); // Genera nuove velocità casuali
     resetPosition(); // Resetta la posizione iniziale
     movementStarted = true; // Inizia il movimento
+    startMovementTime = Date.now();	// Salva il momento di inizio del movimento della pallina
     updatePositionAndSounds(); // Inizia il ciclo di aggiornamento
 }
 
@@ -278,7 +279,7 @@ function updateIndicatorsAlt() {
 			document.getElementById('ballAlt').style.opacity = 0;
 					//movementStarted=false;
 					//startRandomButton.click();
-					dataCSV+=currentTrial+"," + document.getElementById("speed").innerText + "," + document.getElementById("direction").innerText + "," + document.getElementById("speedAlt").innerText + "," + document.getElementById("directionAlt").innerText + "\n";
+					dataCSV+=currentTrial+"," + document.getElementById("speed").innerText + "," + document.getElementById("direction").innerText + "," + document.getElementById("speedAlt").innerText + "," + document.getElementById("directionAlt").innerText + "," + startMovementTime + "," + THor + "," + TVer + "\n";
 
 					resetPosition()
 					resetPositionAlt()
@@ -383,6 +384,8 @@ window.addEventListener('keydown', (event) => {
             if (lastHorizontalPressAlt) {
                 horizontalSpeedAlt = calculateSpeedAlt(now - lastHorizontalPressAlt);
                 horizontalSetAlt = true;
+            } else {
+                THor = Date.now();	// THor calcolato alla prima pressione del tasto da parte dell'utente
             }
             lastHorizontalPressAlt = now;
             break;
@@ -390,6 +393,8 @@ window.addEventListener('keydown', (event) => {
             if (lastHorizontalPressAlt) {
                 horizontalSpeedAlt = -calculateSpeedAlt(now - lastHorizontalPressAlt);
                 horizontalSetAlt = true;
+            } else {
+                THor = Date.now();	// THor calcolato alla prima pressione del tasto da parte dell'utente
             }
             lastHorizontalPressAlt = now;
             break;
@@ -397,6 +402,8 @@ window.addEventListener('keydown', (event) => {
             if (lastVerticalPressAlt) {
                 verticalSpeedAlt = -calculateSpeedAlt(now - lastVerticalPressAlt);
                 verticalSetAlt = true;
+            } else {
+                TVer = Date.now();	// TVer calcolato alla prima pressione del tasto da parte dell'utente
             }
             lastVerticalPressAlt = now;
             break;
@@ -404,6 +411,8 @@ window.addEventListener('keydown', (event) => {
             if (lastVerticalPressAlt) {
                 verticalSpeedAlt = calculateSpeedAlt(now - lastVerticalPressAlt);
                 verticalSetAlt = true;
+            } else {
+                TVer = Date.now();	// TVer calcolato alla prima pressione del tasto da parte dell'utente
             }
             lastVerticalPressAlt = now;
             break;
