@@ -50,7 +50,7 @@ let speedFactor=225;
 let trialNumber=40;
 let currentTrial=0;
 
-let dataCSV="Trial, SoundSpeed, SoundAngle, MovSpeed, MovAngle\n";
+let dataCSV="Trial, SoundSpeed, SoundAngle, MovSpeed, MovAngle, ReactionTime, soundStart, startDragTime, endDragTime\n";
 
 // Funzione per generare velocità casuali
 function generateRandomSpeed() {
@@ -94,7 +94,7 @@ function resetPosition() {
     posY = centerY;
     ball.style.left = `${posX - 10}px`;
     ball.style.top = `${posY - 10}px`;
-
+    soundStart = Date.now();	// Salva il momento di inizio di riproduzione del suono
 
 /*
     // Ferma la riproduzione dei suoni
@@ -233,6 +233,7 @@ function startDrag(event) {
     startX = point.clientX;
     startY = point.clientY;
     startTime = Date.now(); // Guarda il tempo di inizio
+    reactionTime = (startTime - soundStart) / 1000;	// Calcola il tempo di reazione dell'utente
 }
 
 // Durante el drag
@@ -260,11 +261,12 @@ function handleDrag(event) {
             const direction = calculateDirectionG(currentX, currentY);
             const elapsedTime = (Date.now() - startTime) / 1000; // Tiempo en segundos
             const speed = dist / elapsedTime; // Velocidad en píxeles/segundo
+	    endDragTime = Date.now();	// Salva il momento di fine del drag
 
             document.getElementById("speedG").innerText = speed;
             document.getElementById("directionG").innerText = direction;
 
-            dataCSV += `${currentTrial},${document.getElementById("speed").innerText},${document.getElementById("direction").innerText},${speed},${direction}\n`;
+            dataCSV += `${currentTrial},${document.getElementById("speed").innerText},${document.getElementById("direction").innerText},${speed},${direction},${reactionTime},${soundStart},${startTime},${endDragTime}\n`;
 
             setTimeout(() => {
 		ball.style.opacity = '0';
