@@ -45,7 +45,7 @@ circle.style.top = `${centerY - radius}px`;
 ball.style.left = `${centerX - 10}px`;
 ball.style.top = `${centerY - 10}px`;
 
-let speedFactor=225;
+let speedFactor=400;
 
 let trialNumber=40;
 let currentTrial=0;
@@ -55,8 +55,8 @@ let dataCSV="Trial, SoundSpeed, SoundAngle, MovSpeed, MovAngle, ReactionTime, so
 // Funzione per generare velocità casuali
 function generateRandomSpeed() {
     // Genera una velocità casuale tra 400ms e 1200ms (convertito in pixel per secondo)
-    const randomHorizontalSpeed = Math.random() * (1800 - 300) + 300;
-    const randomVerticalSpeed = Math.random() * (1800 - 300) + 300;
+    const randomHorizontalSpeed = Math.random() * (1200 - 150) + 150;
+    const randomVerticalSpeed = Math.random() * (1200 - 150) + 150;
 
     // Assegna un segno casuale per determinare la direzione
     horizontalSpeed = (Math.random() < 0.5 ? -1 : 1) * (speedFactor / randomHorizontalSpeed);
