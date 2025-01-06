@@ -45,7 +45,7 @@ circle.style.top = `${centerY - radius}px`;
 ball.style.left = `${centerX - 10}px`;
 ball.style.top = `${centerY - 10}px`;
 
-let speedFactor=400;
+let speedFactor=300;
 
 let trialNumber=40;
 let currentTrial=0;
