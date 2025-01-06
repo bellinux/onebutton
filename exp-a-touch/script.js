@@ -186,7 +186,7 @@ function newRandomSequence(){
 	generateRandomSpeed(); // Genera nuove velocità casuali
     resetPosition(); // Resetta la posizione iniziale
     movementStarted = true; // Inizia il movimento
-    updatePositionAndSounds(); // Inizia il ciclo di aggiornamento
+    // updatePositionAndSounds(); // Inizia il ciclo di aggiornamento - questa linea non sarebbe necessaria
 }
 
 // Inizia il ciclo di aggiornamento
