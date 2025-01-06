@@ -49,7 +49,7 @@ circle.style.top = `${centerY - radius}px`;
 ball.style.left = `${centerX - 10}px`;
 ball.style.top = `${centerY - 10}px`;
 
-let speedFactor = 225;
+let speedFactor = 300;
 
 let maxTrainingTrials = 40;
 
