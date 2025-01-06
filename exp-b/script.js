@@ -195,7 +195,7 @@ function newRandomSequence(){
     resetPosition(); // Resetta la posizione iniziale
     movementStarted = true; // Inizia il movimento
     startMovementTime = Date.now();	// Salva il momento di inizio del movimento della pallina
-    updatePositionAndSounds(); // Inizia il ciclo di aggiornamento
+    //updatePositionAndSounds(); // Inizia il ciclo di aggiornamento -- questa linea non sembra necessaria...
 }
 
 // Inizia il ciclo di aggiornamento
