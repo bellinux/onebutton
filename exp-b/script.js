@@ -32,7 +32,7 @@ let verticalSpeed = 0;
 let lastUpdateTime = null;
 let movementStarted = false;
 
-let speedFactor = 300;
+let speedFactor = 30;
 
 let trialNumber=40;
 let currentTrial=0;
@@ -50,6 +50,9 @@ const downSound = new Audio('down.wav');
 let lastHorizontalSoundPlayTime = 0;
 let lastVerticalSoundPlayTime = 0;
 
+let randomHorizontalInterval = 0
+let randomVerticalInterval = 0
+
 // Posiziona il cerchio e la palla al centro dello schermo
 circle.style.left = `${centerX - radius}px`;
 circle.style.top = `${centerY - radius}px`;
@@ -57,19 +60,23 @@ ball.style.left = `${centerX - 10}px`;
 ball.style.top = `${centerY - 10}px`;
 
 // Funzione per generare velocità casuali
-function generateRandomSpeed() {
-    // Genera una velocità casuale tra 400ms e 1200ms (convertito in pixel per secondo)
-    const randomHorizontalSpeed = Math.random() * (1200 - 150) + 150;
-    const randomVerticalSpeed = Math.random() * (1200 - 150) + 150;
+function generateRandomInterval() {
+    // Gli intervalli rappresentano i ritmi a cui vengono riprodotti i suoni, espressi in millisecondi
+    // Vanno da un minimo di 400 ms (seminima) a un massimo di 1600 ms (semibreve) e possono assumere valori continui
+    randomHorizontalInterval = Math.random() * (1600 - 200) + 200;
+    randomVerticalInterval = Math.random() * (1600 - 200) + 200;
 
-    // Assegna un segno casuale per determinare la direzione
-    horizontalSpeed = (Math.random() < 0.5 ? -1 : 1) * (speedFactor / randomHorizontalSpeed);
-    verticalSpeed = (Math.random() < 0.5 ? -1 : 1) * (speedFactor / randomVerticalSpeed);
+    // Genera velocità casuali orizzontali e verticali, in base agli intervalli generati sopra.
+    // Queste velocità saranno usate nella funzione updatePositionAndSounds(), dove vengono moltiplicate per il deltaTime
+    // (cioè il tempo trascorso tra un aggiornamento e l'altro, espresso in millisecondi).
+    // Pertanto, queste velocità corrispondono a velocità per millisecondo.
+    horizontalSpeed = (Math.random() < 0.5 ? -1 : 1) * (speedFactor / randomHorizontalInterval);
+    verticalSpeed = (Math.random() < 0.5 ? -1 : 1) * (speedFactor / randomVerticalInterval);
 }
 
 // Calcola la velocità totale in pixel al secondo
 function calculateTotalSpeed() {
-    return Math.sqrt(horizontalSpeed * horizontalSpeed + verticalSpeed * verticalSpeed) * 60; // Moltiplica per 60 per ottenere pixel/secondo (supponendo 60fps)
+    return Math.sqrt(horizontalSpeed * horizontalSpeed + verticalSpeed * verticalSpeed) * 1000; // Moltiplica per 60 per ottenere pixel/secondo (supponendo 60fps)
 }
 
 // Calcola la direzione in gradi (0-360)
@@ -122,17 +129,25 @@ function playSound(sound) {
 var moveBall=true;
 // Aggiorna la posizione della palla e i suoni
 function updatePositionAndSounds(timestamp) {
-	console.log(timestamp)
+	// Inizializza il timestamp del precedente aggiornamento se non è già definito
     if (!lastUpdateTime) {
         lastUpdateTime = timestamp;
     }
 
-    const deltaTime = (timestamp - lastUpdateTime) / 1000; // Tempo in secondi
+    // Calcola il tempo trascorso (in millisecondi) dall'ultimo aggiornamento
+    const deltaTime = (timestamp - lastUpdateTime);
     lastUpdateTime = timestamp;
 
+    // L'uso di deltaTime rende il movimento della palla e la gestione dei suoni
+    // indipendenti dal framerate. In questo modo, gli aggiornamenti sono basati
+    // sul tempo effettivamente trascorso (in millisecondi) tra i frame, garantendo
+    // comportamenti uniformi su dispositivi con differenti frequenze di aggiornamento.
+
+    // Procedi solo se il movimento della palla è iniziato
+
     if (movementStarted || moveBall) {
-        posX += horizontalSpeed * deltaTime * 60; // Velocità per frame (supponendo 60fps)
-        posY += verticalSpeed * deltaTime * 60;
+        posX += horizontalSpeed * deltaTime;
+        posY += verticalSpeed * deltaTime;
 
         // Aggiorna la posizione della palla
         ball.style.left = `${posX - 10}px`;
@@ -146,12 +161,12 @@ function updatePositionAndSounds(timestamp) {
 
         // Gestione suono orizzontale
         if (horizontalSpeed > 0) {
-            if (now - lastHorizontalSoundPlayTime >= speedFactor / Math.abs(horizontalSpeed)) {
+            if (now - lastHorizontalSoundPlayTime >= randomHorizontalInterval) {
                 playSound(rightSound);
                 lastHorizontalSoundPlayTime = now;
             }
         } else if (horizontalSpeed < 0) {
-            if (now - lastHorizontalSoundPlayTime >= speedFactor / Math.abs(horizontalSpeed)) {
+            if (now - lastHorizontalSoundPlayTime >= randomHorizontalInterval) {
                 playSound(leftSound);
                 lastHorizontalSoundPlayTime = now;
             }
@@ -159,12 +174,12 @@ function updatePositionAndSounds(timestamp) {
 
         // Gestione suono verticale
         if (verticalSpeed > 0) {
-            if (now - lastVerticalSoundPlayTime >= speedFactor / Math.abs(verticalSpeed)) {
+            if (now - lastVerticalSoundPlayTime >= randomVerticalInterval) {
                 playSound(downSound);
                 lastVerticalSoundPlayTime = now;
             }
         } else if (verticalSpeed < 0) {
-            if (now - lastVerticalSoundPlayTime >= speedFactor / Math.abs(verticalSpeed)) {
+            if (now - lastVerticalSoundPlayTime >= randomVerticalInterval) {
                 playSound(upSound);
                 lastVerticalSoundPlayTime = now;
             }
@@ -191,7 +206,7 @@ startRandomButton.addEventListener('click', () => {
 });
 
 function newRandomSequence(){
-	generateRandomSpeed(); // Genera nuove velocità casuali
+	generateRandomInterval(); // Genera nuove velocità casuali
     resetPosition(); // Resetta la posizione iniziale
     movementStarted = true; // Inizia il movimento
     startMovementTime = Date.now();	// Salva il momento di inizio del movimento della pallina
@@ -252,7 +267,7 @@ function calculateSpeedAlt(interval) {
 
 // Calcola la velocità totale in pixel al secondo
 function calculateTotalSpeedAlt() {
-    return Math.sqrt(horizontalSpeedAlt * horizontalSpeedAlt + verticalSpeedAlt * verticalSpeedAlt) * 60; // Moltiplica per 60 per ottenere pixel/secondo (supponendo 60fps)
+    return Math.sqrt(horizontalSpeedAlt * horizontalSpeedAlt + verticalSpeedAlt * verticalSpeedAlt) * 1000;
 }
 
 // Calcola la direzione in gradi (0-360)
@@ -338,7 +353,7 @@ function resetPositionAlt() {
     verticalSetAlt = false;
     movementStartedAlt = false;
 
-    updateIndicatorsAlt(); // Aggiorna gli indicatori di velocità e direzione
+    //updateIndicatorsAlt(); // Aggiorna gli indicatori di velocità e direzione
 }
 
 // Aggiorna la posizione della palla
@@ -347,12 +362,12 @@ function updatePositionAlt(timestamp) {
         lastUpdateTimeAlt = timestamp;
     }
 
-    const deltaTime = (timestamp - lastUpdateTimeAlt) / 1000; // Tempo in secondi
+    const deltaTime = (timestamp - lastUpdateTimeAlt);
     lastUpdateTimeAlt = timestamp;
 
     if (movementStartedAlt) {
-        posXAlt += horizontalSpeedAlt * deltaTime * 60; // Velocità per frame (supponendo 60fps)
-        posYAlt += verticalSpeedAlt * deltaTime * 60;
+        posXAlt += horizontalSpeedAlt * deltaTime;
+        posYAlt += verticalSpeedAlt * deltaTime;
 
         // Aggiorna la posizione della palla
         ballAlt.style.left = `${posXAlt - 10}px`;
