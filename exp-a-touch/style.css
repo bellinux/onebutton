@@ -17,7 +17,7 @@
 		#ballDrag {
             width: 20px;
             height: 20px;
-            background-color: green;
+            background-color: blue;
             border-radius: 50%;
             position: absolute;
         }

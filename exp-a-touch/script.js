@@ -39,33 +39,43 @@ const downSound = new Audio('down.wav');
 let lastHorizontalSoundPlayTime = 0;
 let lastVerticalSoundPlayTime = 0;
 
+let randomHorizontalInterval = 0
+let randomVerticalInterval = 0
+
 // Posiziona il cerchio e la palla al centro dello schermo
 circle.style.left = `${centerX - radius}px`;
 circle.style.top = `${centerY - radius}px`;
 ball.style.left = `${centerX - 10}px`;
 ball.style.top = `${centerY - 10}px`;
 
-let speedFactor=300;
+let speedFactor=30;
 
 let trialNumber=40;
 let currentTrial=0;
 
 let dataCSV="Trial, SoundSpeed, SoundAngle, MovSpeed, MovAngle, ReactionTime, soundStart, startDragTime, endDragTime\n";
 
-// Funzione per generare velocità casuali
-function generateRandomSpeed() {
-    // Genera una velocità casuale tra 400ms e 1200ms (convertito in pixel per secondo)
-    const randomHorizontalSpeed = Math.random() * (1200 - 150) + 150;
-    const randomVerticalSpeed = Math.random() * (1200 - 150) + 150;
 
-    // Assegna un segno casuale per determinare la direzione
-    horizontalSpeed = (Math.random() < 0.5 ? -1 : 1) * (speedFactor / randomHorizontalSpeed);
-    verticalSpeed = (Math.random() < 0.5 ? -1 : 1) * (speedFactor / randomVerticalSpeed);
+// Funzione per generare intervalli casuali
+function generateRandomIntervals() {
+    // Gli intervalli rappresentano i ritmi a cui vengono riprodotti i suoni, espressi in millisecondi
+    // Vanno da un minimo di 400 ms (seminima) a un massimo di 1600 ms (semibreve) e possono assumere valori continui
+    randomHorizontalInterval = Math.random() * (1600 - 200) + 200;
+    randomVerticalInterval = Math.random() * (1600 - 200) + 200;
+
+    // Genera velocità casuali orizzontali e verticali, in base agli intervalli generati sopra.
+    // Queste velocità saranno usate nella funzione updatePositionAndSounds(), dove vengono moltiplicate per il deltaTime
+    // (cioè il tempo trascorso tra un aggiornamento e l'altro, espresso in millisecondi).
+    // Pertanto, queste velocità corrispondono a velocità per millisecondo.
+    horizontalSpeed = (Math.random() < 0.5 ? -1 : 1) * (speedFactor / randomHorizontalInterval);
+    verticalSpeed = (Math.random() < 0.5 ? -1 : 1) * (speedFactor / randomVerticalInterval);
 }
 
 // Calcola la velocità totale in pixel al secondo
 function calculateTotalSpeed() {
-    return Math.sqrt(horizontalSpeed * horizontalSpeed + verticalSpeed * verticalSpeed) * 60; // Moltiplica per 60 per ottenere pixel/secondo (supponendo 60fps)
+    // Poiché horizontalSpeed e verticalSpeed rappresentano velocità in pixel per millisecondo (vedi funzione updatePositionAndSounds),
+    // per ottenere la velocità totale in pixel al secondo è necessario moltiplicare per 1000 (ms in un secondo).
+    return Math.sqrt(horizontalSpeed * horizontalSpeed + verticalSpeed * verticalSpeed) * 1000;
 }
 
 // Calcola la direzione in gradi (0-360)
@@ -113,63 +123,79 @@ function playSound(sound) {
     sound.play();
 }
 
-// Aggiorna la posizione della palla e i suoni
+// Aggiorna la posizione della palla e riproduce i suoni in base alle velocità e direzioni
 function updatePositionAndSounds(timestamp) {
+    // Inizializza il timestamp del precedente aggiornamento se non è già definito
     if (!lastUpdateTime) {
         lastUpdateTime = timestamp;
     }
 
-    const deltaTime = (timestamp - lastUpdateTime) / 1000; // Tempo in secondi
+    // Calcola il tempo trascorso (in millisecondi) dall'ultimo aggiornamento
+    const deltaTime = (timestamp - lastUpdateTime);
     lastUpdateTime = timestamp;
 
-    if (movementStarted) {
-        posX += horizontalSpeed * deltaTime * 60; // Velocità per frame (supponendo 60fps)
-        posY += verticalSpeed * deltaTime * 60;
+    // L'uso di deltaTime rende il movimento della palla e la gestione dei suoni
+    // indipendenti dal framerate. In questo modo, gli aggiornamenti sono basati
+    // sul tempo effettivamente trascorso (in millisecondi) tra i frame, garantendo
+    // comportamenti uniformi su dispositivi con differenti frequenze di aggiornamento.
 
-        // Aggiorna la posizione della palla
+    // Procedi solo se il movimento della palla è iniziato
+    if (movementStarted) {
+        // Aggiorna le coordinate della palla in base alle velocità e al tempo trascorso
+        // (le velocità sono espresse in pixel per millisecondo - vedi righe sotto dove si usano valori in px)
+        posX += horizontalSpeed * deltaTime;
+        posY += verticalSpeed * deltaTime;
+
+        // Modifica la posizione visiva della palla nell'interfaccia.
         ball.style.left = `${posX - 10}px`;
         ball.style.top = `${posY - 10}px`;
 
-        // Aggiorna gli indicatori di velocità e direzione
+        // Aggiorna i valori degli indicatori di velocità e direzione nell'interfaccia
         updateIndicators();
 
-        // Riproduci i suoni in base alle velocità orizzontali e verticali
-        const now = timestamp;
+        // Riproduci i suoni in base alla velocità e alla direzione orizzontale/verticale
+        const now = timestamp; // Timestamp attuale per il confronto con gli intervalli
 
-        // Gestione suono orizzontale
-        if (horizontalSpeed > 0) {
-            if (now - lastHorizontalSoundPlayTime >= speedFactor / Math.abs(horizontalSpeed)) {
-                playSound(rightSound);
-                lastHorizontalSoundPlayTime = now;
+        // Gestione dei suoni orizzontali
+        if (horizontalSpeed > 0) { // Se la palla si muove verso destra
+            if (now - lastHorizontalSoundPlayTime >= randomHorizontalInterval) {
+                playSound(rightSound); // Riproduce il suono per la direzione destra
+                lastHorizontalSoundPlayTime = now; // Aggiorna il timestamp dell'ultimo suono
             }
-        } else if (horizontalSpeed < 0) {
-            if (now - lastHorizontalSoundPlayTime >= speedFactor / Math.abs(horizontalSpeed)) {
-                playSound(leftSound);
-                lastHorizontalSoundPlayTime = now;
+        } else if (horizontalSpeed < 0) { // Se la palla si muove verso sinistra
+            if (now - lastHorizontalSoundPlayTime >= randomHorizontalInterval) {
+                playSound(leftSound); // Riproduce il suono per la direzione sinistra
+                lastHorizontalSoundPlayTime = now; // Aggiorna il timestamp dell'ultimo suono
             }
         }
 
-        // Gestione suono verticale
-        if (verticalSpeed > 0) {
-            if (now - lastVerticalSoundPlayTime >= speedFactor / Math.abs(verticalSpeed)) {
-                playSound(downSound);
-                lastVerticalSoundPlayTime = now;
+        // Gestione dei suoni verticali
+        if (verticalSpeed > 0) { // Se la palla si muove verso il basso
+            if (now - lastVerticalSoundPlayTime >= randomVerticalInterval) {
+                playSound(downSound); // Riproduce il suono per la direzione giù
+                lastVerticalSoundPlayTime = now; // Aggiorna il timestamp dell'ultimo suono
             }
-        } else if (verticalSpeed < 0) {
-            if (now - lastVerticalSoundPlayTime >= speedFactor / Math.abs(verticalSpeed)) {
-                playSound(upSound);
-                lastVerticalSoundPlayTime = now;
+        } else if (verticalSpeed < 0) { // Se la palla si muove verso l'alto
+            if (now - lastVerticalSoundPlayTime >= randomVerticalInterval) {
+                playSound(upSound); // Riproduce il suono per la direzione su
+                lastVerticalSoundPlayTime = now; // Aggiorna il timestamp dell'ultimo suono
             }
         }
 
-        // Se la palla esce dal cerchio, resettare la posizione al centro
+        // Controlla se la palla è ancora all'interno di un cerchio definito
+        // Se la palla esce, resetta la posizione al centro
         if (!isWithinCircle(posX, posY)) {
             resetPosition();
         }
     }
 
+    // Pianifica il prossimo aggiornamento animato con requestAnimationFrame
+    // Questo metodo chiama la funzione alla prossima opportunità di ridisegno,
+    // ma il comportamento rimane indipendente dal framerate grazie al calcolo
+    // basato su deltaTime.
     requestAnimationFrame(updatePositionAndSounds);
 }
+
 
 // Gestisce l'evento di pressione del pulsante "startRandom"
 startRandomButton.addEventListener('click', () => {
@@ -183,10 +209,10 @@ startRandomButton.addEventListener('click', () => {
 });
 
 function newRandomSequence(){
-	generateRandomSpeed(); // Genera nuove velocità casuali
+	generateRandomIntervals(); // Genera nuove velocità casuali
     resetPosition(); // Resetta la posizione iniziale
     movementStarted = true; // Inizia il movimento
-    // updatePositionAndSounds(); // Inizia il ciclo di aggiornamento - questa linea non sarebbe necessaria
+    //updatePositionAndSounds(); // Inizia il ciclo di aggiornamento
 }
 
 // Inizia il ciclo di aggiornamento
@@ -339,3 +365,36 @@ function downloadCSV(text) {
     link.click();
     document.body.removeChild(link);
 }
+
+
+
+
+
+
+/*
+
+let lastPosition = ball.getBoundingClientRect(); // Posizione iniziale
+let intervalId = setInterval(() => {
+    // Ottieni la posizione attuale della palla
+    const currentPosition = ball.getBoundingClientRect();
+    
+    // Calcola lo spostamento su X e Y
+    const deltaX = currentPosition.left - lastPosition.left;
+    const deltaY = currentPosition.top - lastPosition.top;
+    
+    // Calcola la distanza percorsa (spostamento totale)
+    const distance = Math.sqrt(deltaX ** 2 + deltaY ** 2);
+    
+    // Calcola la velocità (distanza percorsa in 200 ms -> scala in secondi)
+    const speed = distance; // 0.2 secondi = 200 ms
+    
+    console.log(`Velocità: ${speed.toFixed(2)} pixel/s`);
+    
+    // Aggiorna la posizione precedente
+    lastPosition = currentPosition;
+}, 1000);
+
+
+
+
+*/
