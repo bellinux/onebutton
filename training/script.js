@@ -32,10 +32,10 @@ let movementStarted = false;
 let lastUpdateTime = null;
 
 // Suoni
-const rightSound = new Audio('right.wav');
-const leftSound = new Audio('left.wav');
-const upSound = new Audio('up.wav');
-const downSound = new Audio('down.wav');
+const rightSound = new Audio('right.mp3');
+const leftSound = new Audio('left.mp3');
+const upSound = new Audio('up.mp3');
+const downSound = new Audio('down.mp3');
 
 // Timing variables for sound
 let horizontalRhythm = 0;
@@ -49,9 +49,9 @@ circle.style.top = `${centerY - radius}px`;
 ball.style.left = `${centerX - 10}px`;
 ball.style.top = `${centerY - 10}px`;
 
-let speedFactor = 300;
+let speedFactor = 30;
 
-let maxTrainingTrials = 40;
+let maxTrainingTrials = 5;
 
 document.getElementById('totalT').innerHTML = maxTrainingTrials;
 
@@ -66,7 +66,7 @@ function calculateSpeed(interval) {
 
 // Calcola la velocità totale in pixel al secondo
 function calculateTotalSpeed() {
-    return Math.sqrt(horizontalSpeed * horizontalSpeed + verticalSpeed * verticalSpeed) * 60; // Moltiplica per 60 per ottenere pixel/secondo (supponendo 60fps)
+    return Math.sqrt(horizontalSpeed * horizontalSpeed + verticalSpeed * verticalSpeed) * 1000;
 }
 
 // Calcola la direzione in gradi (0-360)
@@ -134,12 +134,12 @@ function updatePositionAndSounds(timestamp) {
         lastUpdateTime = timestamp;
     }
 
-    const deltaTime = (timestamp - lastUpdateTime) / 1000; // Tempo in secondi
+    const deltaTime = (timestamp - lastUpdateTime); // Tempo in secondi
     lastUpdateTime = timestamp;
 
     if (movementStarted) {
-        posX += horizontalSpeed * deltaTime * 60; // Velocità per frame (supponendo 60fps)
-        posY += verticalSpeed * deltaTime * 60;
+        posX += horizontalSpeed * deltaTime; // Velocità per frame (supponendo 60fps)
+        posY += verticalSpeed * deltaTime;
 
         // Aggiorna la posizione della palla
         ball.style.left = `${posX - 10}px`;
