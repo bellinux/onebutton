@@ -50,10 +50,10 @@ ball.style.top = `${centerY - 10}px`;
 
 let speedFactor=30;
 
-let trialNumber=40;
+let trialNumber=5;
 let currentTrial=0;
 
-let dataCSV="Trial, SoundSpeed, SoundAngle, MovSpeed, MovAngle, ReactionTime, soundStart, startDragTime, endDragTime\n";
+let dataCSV="Trial, SoundSpeed, SoundAngle, MovSpeed, MovAngle, soundStart, startDragTime, endDragTime\n";
 
 
 // Funzione per generare intervalli casuali
@@ -104,7 +104,7 @@ function resetPosition() {
     posY = centerY;
     ball.style.left = `${posX - 10}px`;
     ball.style.top = `${posY - 10}px`;
-    soundStart = Date.now();	// Salva il momento di inizio di riproduzione del suono
+    
 
 /*
     // Ferma la riproduzione dei suoni
@@ -213,6 +213,10 @@ function newRandomSequence(){
     resetPosition(); // Resetta la posizione iniziale
     movementStarted = true; // Inizia il movimento
     //updatePositionAndSounds(); // Inizia il ciclo di aggiornamento
+	soundStart = Date.now();	// Salva il momento di inizio di riproduzione del suono
+	document.getElementById('soundStartTime').innerHTML = soundStart;
+	document.getElementById('dragStartTime').innerHTML = "";
+	document.getElementById('dragStopTime').innerHTML = "";
 }
 
 // Inizia il ciclo di aggiornamento
@@ -259,7 +263,8 @@ function startDrag(event) {
     startX = point.clientX;
     startY = point.clientY;
     startTime = Date.now(); // Guarda il tempo di inizio
-    reactionTime = (startTime - soundStart) / 1000;	// Calcola il tempo di reazione dell'utente
+	document.getElementById("dragStartTime").innerHTML = startTime;
+    //reactionTime = (startTime - soundStart) / 1000;	// Calcola il tempo di reazione dell'utente
 }
 
 // Durante el drag
@@ -287,12 +292,12 @@ function handleDrag(event) {
             const direction = calculateDirectionG(currentX, currentY);
             const elapsedTime = (Date.now() - startTime) / 1000; // Tiempo en segundos
             const speed = dist / elapsedTime; // Velocidad en píxeles/segundo
-	    endDragTime = Date.now();	// Salva il momento di fine del drag
-
+			const endDragTime = Date.now();	// Salva il momento di fine del drag
+			document.getElementById("dragStopTime").innerText = endDragTime;
             document.getElementById("speedG").innerText = speed;
             document.getElementById("directionG").innerText = direction;
 
-            dataCSV += `${currentTrial},${document.getElementById("speed").innerText},${document.getElementById("direction").innerText},${speed},${direction},${reactionTime},${soundStart},${startTime},${endDragTime}\n`;
+            dataCSV += `${currentTrial},${document.getElementById("speed").innerText},${document.getElementById("direction").innerText},${speed},${direction},${soundStart},${startTime},${endDragTime}\n`;
 
             setTimeout(() => {
 		ball.style.opacity = '0';
