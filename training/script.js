@@ -32,10 +32,10 @@ let movementStarted = false;
 let lastUpdateTime = null;
 
 // Suoni
-const rightSound = new Audio('right.mp3');
-const leftSound = new Audio('left.mp3');
-const upSound = new Audio('up.mp3');
-const downSound = new Audio('down.mp3');
+const rightSound = new Audio('right.wav');
+const leftSound = new Audio('left.wav');
+const upSound = new Audio('up.wav');
+const downSound = new Audio('down.wav');
 
 // Timing variables for sound
 let horizontalRhythm = 0;
