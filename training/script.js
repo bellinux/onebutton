@@ -43,6 +43,8 @@ let verticalRhythm = 0;
 let lastHorizontalSoundPlayTime = 0;
 let lastVerticalSoundPlayTime = 0;
 
+let dataCSV="Trial, UserSpeed, UserAngle, horizontalInterval, verticalInterval\n";
+
 // Posiziona il cerchio e la palla al centro dello schermo
 circle.style.left = `${centerX - radius}px`;
 circle.style.top = `${centerY - radius}px`;
@@ -74,12 +76,16 @@ function calculateDirection() {
     return Math.atan2(verticalSpeed, horizontalSpeed) * (180 / Math.PI);
 }
 
+let speed;
+let direction;
+	
+	
 // Aggiorna gli indicatori di velocità e direzione
 function updateIndicators() {
-    const speed = calculateTotalSpeed();
-    const direction = calculateDirection();
-    speedIndicator.textContent = Math.round(speed);
-    directionIndicator.textContent = Math.round((direction + 360) % 360); // Assicura che la direzione sia tra 0-360°
+    speed = calculateTotalSpeed();
+    direction = calculateDirection();
+    speedIndicator.textContent = speed;
+    directionIndicator.textContent = (direction + 360) % 360; // Assicura che la direzione sia tra 0-360°
 }
 
 // Controlla se la palla è all'interno del cerchio
@@ -118,6 +124,10 @@ function resetPosition() {
 		
 	if (currentTrainingTrial-1==maxTrainingTrials) {
 		document.body.style.display="none";
+		
+		console.log(dataCSV);
+        downloadCSV(dataCSV);
+					
 		alert ("Training terminato");
 	}
 }
@@ -147,6 +157,8 @@ function updatePositionAndSounds(timestamp) {
 
         // Aggiorna gli indicatori di velocità e direzione
         updateIndicators();
+		
+		//dataCSV += `${currentTrainingTrial},${speed},${direction},${horizontalInterval},${verticalInterval}\n`;
 
         // Riproduci i suoni in base alle velocità orizzontali e verticali
         const now = timestamp;
@@ -189,7 +201,7 @@ function updatePositionAndSounds(timestamp) {
 
     requestAnimationFrame(updatePositionAndSounds);
 }
-
+let horizontalInterval, verticalInterval;
 // Gestisce gli eventi di pressione dei tasti
 window.addEventListener('keydown', (event) => {
     if (movementStarted) {
@@ -201,6 +213,7 @@ window.addEventListener('keydown', (event) => {
     switch (event.key) {
         case 'ArrowRight':
             if (lastHorizontalPress) {
+				horizontalInterval=now - lastHorizontalPress;
                 horizontalSpeed = calculateSpeed(now - lastHorizontalPress);
                 horizontalSet = true;
             }
@@ -208,6 +221,7 @@ window.addEventListener('keydown', (event) => {
             break;
         case 'ArrowLeft':
             if (lastHorizontalPress) {
+				horizontalInterval=now - lastHorizontalPress;
                 horizontalSpeed = -calculateSpeed(now - lastHorizontalPress);
                 horizontalSet = true;
             }
@@ -215,6 +229,7 @@ window.addEventListener('keydown', (event) => {
             break;
         case 'ArrowUp':
             if (lastVerticalPress) {
+				verticalInterval = now - lastVerticalPress;
                 verticalSpeed = -calculateSpeed(now - lastVerticalPress);
                 verticalSet = true;
             }
@@ -222,6 +237,7 @@ window.addEventListener('keydown', (event) => {
             break;
         case 'ArrowDown':
             if (lastVerticalPress) {
+				verticalInterval = now - lastVerticalPress;
                 verticalSpeed = calculateSpeed(now - lastVerticalPress);
                 verticalSet = true;
             }
@@ -233,7 +249,38 @@ window.addEventListener('keydown', (event) => {
     if (horizontalSet && verticalSet) {
         movementStarted = true;
 		
+		updateIndicators();
+		
+		dataCSV += `${currentTrainingTrial},${speed},${direction},${horizontalInterval},${verticalInterval}\n`;
+		
+		
+
+		
     }
 });
 
 requestAnimationFrame(updatePositionAndSounds);
+
+
+function downloadCSV(text) {
+    // Genera il timestamp corrente
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+
+    // Crea il contenuto del file CSV
+    const csvContent = `data:text/csv;charset=utf-8,${text}`;
+
+    // Codifica il contenuto come URI
+    const encodedUri = encodeURI(csvContent);
+
+    // Crea un elemento <a> temporaneo per il download
+    const link = document.createElement("a");
+    link.setAttribute("href", encodedUri);
+    link.setAttribute("download", `${timestamp}.csv`);
+
+    // Aggiungi il link al documento, attiva il download, e rimuovi il link
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+
