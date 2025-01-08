@@ -324,9 +324,13 @@ function updateIndicatorsAlt() {
 						document.body.style.display = "none";
 
 					}
-					
+					document.getElementById("circle").style.background="";
 					
 		}, 3800);
+		
+		setTimeout(() => {
+			document.getElementById("circle").style.background="black";
+		}, 3000);
 	}
 	
 	movementStarted=false;
