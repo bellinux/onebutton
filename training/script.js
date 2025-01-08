@@ -51,7 +51,7 @@ ball.style.top = `${centerY - 10}px`;
 
 let speedFactor = 30;
 
-let maxTrainingTrials = 5;
+let maxTrainingTrials = 40;
 
 document.getElementById('totalT').innerHTML = maxTrainingTrials;
 
