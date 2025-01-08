@@ -39,7 +39,7 @@ let currentTrial=0;
 
 let THor, TVer, THorSecond, TVerSecond;
 
-let dataCSV="Trial, RandomSpeed, RandomAngle, UserSpeed, UserAngle, StartMovementTime, THor, TVer, THorSecond, TVerSecond\n";
+let dataCSV="Trial, RandomSpeed, RandomAngle, UserSpeed, UserAngle, StartMovementTime, THor, TVer, THorSecond, TVerSecond, randomHorizontalInterval, randomVerticalInterval\n";
 
 
 // Suoni
@@ -302,7 +302,7 @@ function updateIndicatorsAlt() {
 			document.getElementById('ballAlt').style.opacity = 0;
 					//movementStarted=false;
 					//startRandomButton.click();
-					dataCSV+=currentTrial+"," + document.getElementById("speed").innerText + "," + document.getElementById("direction").innerText + "," + document.getElementById("speedAlt").innerText + "," + document.getElementById("directionAlt").innerText + "," + startMovementTime + "," + THor + "," + TVer + "," + THorSecond + "," + TVerSecond + "\n";
+					dataCSV+=currentTrial+"," + document.getElementById("speed").innerText + "," + document.getElementById("direction").innerText + "," + document.getElementById("speedAlt").innerText + "," + document.getElementById("directionAlt").innerText + "," + startMovementTime + "," + THor + "," + TVer + "," + THorSecond + "," + TVerSecond + "," + randomHorizontalInterval + "," + randomVerticalInterval + "\n";
 
 					resetPosition()
 					resetPositionAlt()
