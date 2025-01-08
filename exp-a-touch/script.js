@@ -53,7 +53,7 @@ let speedFactor=30;
 let trialNumber=40;
 let currentTrial=0;
 
-let dataCSV="Trial, SoundSpeed, SoundAngle, MovSpeed, MovAngle, soundStart, startDragTime, endDragTime\n";
+let dataCSV="Trial, SoundSpeed, SoundAngle, MovSpeed, MovAngle, soundStart, startDragTime, endDragTime, randomHorizontalInterval, randomVerticalInterval\n";
 
 
 // Funzione per generare intervalli casuali
@@ -299,7 +299,7 @@ function handleDrag(event) {
             document.getElementById("speedG").innerText = speed;
             document.getElementById("directionG").innerText = direction;
 
-            dataCSV += `${currentTrial},${document.getElementById("speed").innerText},${document.getElementById("direction").innerText},${speed},${direction},${soundStart},${startTime},${endDragTime}\n`;
+            dataCSV += `${currentTrial},${document.getElementById("speed").innerText},${document.getElementById("direction").innerText},${speed},${direction},${soundStart},${startTime},${endDragTime},${randomHorizontalInterval},${randomVerticalInterval}\n`;
 
 
 			setTimeout(() => {
