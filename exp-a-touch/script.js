@@ -50,7 +50,7 @@ ball.style.top = `${centerY - 10}px`;
 
 let speedFactor=30;
 
-let trialNumber=5;
+let trialNumber=40;
 let currentTrial=0;
 
 let dataCSV="Trial, SoundSpeed, SoundAngle, MovSpeed, MovAngle, soundStart, startDragTime, endDragTime\n";
