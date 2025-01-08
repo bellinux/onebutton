@@ -37,7 +37,9 @@ let speedFactor = 30;
 let trialNumber=40;
 let currentTrial=0;
 
-let dataCSV="Trial, RandomSpeed, RandomAngle, UserSpeed, UserAngle, StartMovementTime, THor, TVer\n";
+let THor, TVer, THorSecond, TVerSecond;
+
+let dataCSV="Trial, RandomSpeed, RandomAngle, UserSpeed, UserAngle, StartMovementTime, THor, TVer, THorSecond, TVerSecond\n";
 
 
 // Suoni
@@ -211,6 +213,12 @@ function newRandomSequence(){
     movementStarted = true; // Inizia il movimento
     startMovementTime = Date.now();	// Salva il momento di inizio del movimento della pallina
     //updatePositionAndSounds(); // Inizia il ciclo di aggiornamento -- questa linea non sembra necessaria...
+
+	document.getElementById('startMovementTime').innerHTML = startMovementTime;
+	document.getElementById('firstHorT').innerHTML = "";
+	document.getElementById('secondHorT').innerHTML = "";
+	document.getElementById('firstVerT').innerHTML = "";
+	document.getElementById('secondVerT').innerHTML = "";
 }
 
 // Inizia il ciclo di aggiornamento
@@ -294,7 +302,7 @@ function updateIndicatorsAlt() {
 			document.getElementById('ballAlt').style.opacity = 0;
 					//movementStarted=false;
 					//startRandomButton.click();
-					dataCSV+=currentTrial+"," + document.getElementById("speed").innerText + "," + document.getElementById("direction").innerText + "," + document.getElementById("speedAlt").innerText + "," + document.getElementById("directionAlt").innerText + "," + startMovementTime + "," + THor + "," + TVer + "\n";
+					dataCSV+=currentTrial+"," + document.getElementById("speed").innerText + "," + document.getElementById("direction").innerText + "," + document.getElementById("speedAlt").innerText + "," + document.getElementById("directionAlt").innerText + "," + startMovementTime + "," + THor + "," + TVer + "," + THorSecond + "," + TVerSecond + "\n";
 
 					resetPosition()
 					resetPositionAlt()
@@ -399,8 +407,11 @@ window.addEventListener('keydown', (event) => {
             if (lastHorizontalPressAlt) {
                 horizontalSpeedAlt = calculateSpeedAlt(now - lastHorizontalPressAlt);
                 horizontalSetAlt = true;
+				THorSecond = Date.now();
+				document.getElementById("secondHorT").innerText = THorSecond;
             } else {
                 THor = Date.now();	// THor calcolato alla prima pressione del tasto da parte dell'utente
+				document.getElementById("firstHorT").innerText = THor;
             }
             lastHorizontalPressAlt = now;
             break;
@@ -408,8 +419,11 @@ window.addEventListener('keydown', (event) => {
             if (lastHorizontalPressAlt) {
                 horizontalSpeedAlt = -calculateSpeedAlt(now - lastHorizontalPressAlt);
                 horizontalSetAlt = true;
+				THorSecond = Date.now();
+				document.getElementById("secondHorT").innerText = THorSecond;
             } else {
                 THor = Date.now();	// THor calcolato alla prima pressione del tasto da parte dell'utente
+				document.getElementById("firstHorT").innerText = THor;
             }
             lastHorizontalPressAlt = now;
             break;
@@ -417,8 +431,11 @@ window.addEventListener('keydown', (event) => {
             if (lastVerticalPressAlt) {
                 verticalSpeedAlt = -calculateSpeedAlt(now - lastVerticalPressAlt);
                 verticalSetAlt = true;
+				TVerSecond = Date.now();
+				document.getElementById("secondVerT").innerText = TVerSecond;
             } else {
                 TVer = Date.now();	// TVer calcolato alla prima pressione del tasto da parte dell'utente
+				document.getElementById("firstVerT").innerText = TVer;
             }
             lastVerticalPressAlt = now;
             break;
@@ -426,8 +443,11 @@ window.addEventListener('keydown', (event) => {
             if (lastVerticalPressAlt) {
                 verticalSpeedAlt = calculateSpeedAlt(now - lastVerticalPressAlt);
                 verticalSetAlt = true;
+				TVerSecond = Date.now();
+				document.getElementById("secondVerT").innerText = TVerSecond;
             } else {
                 TVer = Date.now();	// TVer calcolato alla prima pressione del tasto da parte dell'utente
+				document.getElementById("firstVerT").innerText = TVer;
             }
             lastVerticalPressAlt = now;
             break;
