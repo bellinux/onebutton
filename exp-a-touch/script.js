@@ -50,7 +50,7 @@ ball.style.top = `${centerY - 10}px`;
 
 let speedFactor=30;
 
-let trialNumber=40;
+let trialNumber=5;
 let currentTrial=0;
 
 let dataCSV="Trial, SoundSpeed, SoundAngle, MovSpeed, MovAngle, soundStart, startDragTime, endDragTime\n";
@@ -116,11 +116,13 @@ function resetPosition() {
 
     updateIndicators(); // Aggiorna gli indicatori di velocità e direzione
 }
-
+let playSoundBool=true;
 // Riproduce un suono
 function playSound(sound) {
-    sound.currentTime = 0; // Riavvia il suono dall'inizio
-    sound.play();
+	if (playSoundBool) {
+		sound.currentTime = 0; // Riavvia il suono dall'inizio
+		sound.play();
+	}
 }
 
 // Aggiorna la posizione della palla e riproduce i suoni in base alle velocità e direzioni
@@ -299,9 +301,15 @@ function handleDrag(event) {
 
             dataCSV += `${currentTrial},${document.getElementById("speed").innerText},${document.getElementById("direction").innerText},${speed},${direction},${soundStart},${startTime},${endDragTime}\n`;
 
+
+			setTimeout(() => {
+				playSoundBool=false;
+				document.getElementById("circle").style.background="black";
+			}, 2500);
+				
             setTimeout(() => {
-		ball.style.opacity = '0';
-		ballDrag.style.opacity = '1';
+				ball.style.opacity = '0';
+				ballDrag.style.opacity = '1';
                 // Regresa la bola al centro
                 circle.style.borderColor = "black";
                 ballDrag.style.left = `${centerX - 10}px`;
@@ -312,7 +320,8 @@ function handleDrag(event) {
                 currentTrial++;
 
                 document.getElementById('currentT').innerHTML = currentTrial + 1;
-
+				playSoundBool=true;
+				document.getElementById("circle").style.background=""
                 if (trialNumber == currentTrial) {
                     console.log(dataCSV);
                     downloadCSV(dataCSV);
@@ -320,6 +329,7 @@ function handleDrag(event) {
                     alert("Experiment end");
 
                     document.body.style.display = "none";
+					
                 }
             }, 4000);
 
