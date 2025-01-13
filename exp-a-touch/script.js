@@ -125,6 +125,10 @@ function playSound(sound) {
 	}
 }
 
+let repeatTrace=false;
+let posI=0;
+
+
 // Aggiorna la posizione della palla e riproduce i suoni in base alle velocità e direzioni
 function updatePositionAndSounds(timestamp) {
     // Inizializza il timestamp del precedente aggiornamento se non è già definito
@@ -151,6 +155,26 @@ function updatePositionAndSounds(timestamp) {
         // Modifica la posizione visiva della palla nell'interfaccia.
         ball.style.left = `${posX - 10}px`;
         ball.style.top = `${posY - 10}px`;
+		
+		if (repeatTrace==true){
+			console.log("repeat")
+			if (recordedPositions[posI]){
+				if (Date.now()-initialReplicationTimestamp > recordedPositions[posI][2]){
+					posI++;
+				}
+			}
+			if (recordedPositions[posI]){
+				ballDrag.style.left = recordedPositions[posI][0];
+				ballDrag.style.top = recordedPositions[posI][1];
+			}
+			
+			if (posI>=recordedPositions.length){
+				ballDrag.style.opacity = '0';
+			}
+			
+		} else {
+			recordedPositions.push([ballDrag.style.left, ballDrag.style.top, Date.now()-startTime])
+		}
 
         // Aggiorna i valori degli indicatori di velocità e direzione nell'interfaccia
         updateIndicators();
@@ -256,10 +280,12 @@ function calculateDirectionG(x, y) {
 ballDrag.addEventListener('mousedown', startDrag);
 ballDrag.addEventListener('touchstart', startDrag, { passive: false });
 
+let recordedPositions=[];
+
 function startDrag(event) {
     event.preventDefault(); // Previene effetti collaterali
     isDragging = true;
-
+	recordedPositions=[]
     // Gestisce sia l'evento mouse che touch
     const point = event.touches ? event.touches[0] : event;
     startX = point.clientX;
@@ -267,12 +293,14 @@ function startDrag(event) {
     startTime = Date.now(); // Guarda il tempo di inizio
 	document.getElementById("dragStartTime").innerHTML = startTime;
     //reactionTime = (startTime - soundStart) / 1000;	// Calcola il tempo di reazione dell'utente
+	repeatTrace=false;
 }
 
 // Durante el drag
 document.addEventListener('mousemove', handleDrag);
 document.addEventListener('touchmove', handleDrag, { passive: false });
 
+let initialReplicationTimestamp;
 function handleDrag(event) {
     if (isDragging) {
         // Gestisce le coordinate per touch e mouse
@@ -286,11 +314,18 @@ function handleDrag(event) {
             // Mueve la bola solo dentro del círculo
             ballDrag.style.left = `${currentX - 10}px`;
             ballDrag.style.top = `${currentY - 10}px`;
+			repeatTrace=false;
+			
+			
         } else {
+			repeatTrace=true;
+			initialReplicationTimestamp=Date.now();
+			resetPosition();
+			posI=0;
             // Cambia colore del cerchio e calcola direzione/velocità al bordo
             circle.style.borderColor = "yellow";
 	    ball.style.opacity = '1';
-	    ballDrag.style.opacity = '0';
+	    ballDrag.style.opacity = '1';
             const direction = calculateDirectionG(currentX, currentY);
             const elapsedTime = (Date.now() - startTime) / 1000; // Tiempo en segundos
             const speed = dist / elapsedTime; // Velocidad en píxeles/segundo
@@ -305,7 +340,10 @@ function handleDrag(event) {
 			setTimeout(() => {
 				playSoundBool=false;
 				document.getElementById("circle").style.background="black";
-			}, 2500);
+				ball.style.opacity = '0';
+				ballDrag.style.opacity = '0';
+				repeatTrace=false;
+			}, 3500);
 				
             setTimeout(() => {
 				ball.style.opacity = '0';
@@ -331,7 +369,7 @@ function handleDrag(event) {
                     document.body.style.display = "none";
 					
                 }
-            }, 4000);
+            }, 4500);
 
             // Forza il final del drag
             isDragging = false;
