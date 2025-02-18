@@ -1,0 +1,51 @@
+
+- Dovrai controllare o riprodurre la velocità e la direzione del
+  movimento di una pallina, dal centro alla circonferenza di un
+  cerchio. Nella fase di training, imparerai ad associare ritmo a
+  velocità e direzione. Premendo due volte -> determinerai la
+  componente orizzontale di velocità verso destra. Premendo due volte
+  <- determinerai la componente orizzontale di velocità verso
+  sinistra. Premendo due volte ^ determinerai la componente verticale
+  di velocità verso l'alto. Premendo due volte \/ determinerai la
+  componente orizzontale di velocità verso sinistra.  Due colpi
+  ravvicinati provocano un movimento veloce, due colpi distanti nel
+  tempo provocano un movimento lento (esemplificare, direttamente
+  nella app, che poi sarà ricaricata). Finito il training, farai due
+  esperimenti. Nel primo, farai un primo esperimento nel quale
+  sentirai due ritmi sovrapposti, e dovrai spostare un pallino nella
+  direzione e alla velocità comunicate dal ritmo. Nel secondo
+  esperimento, vedrai un pallino muoversi, e dovrai produrre due ritmi
+  sovrapposti, corrispondenti alla direzione e velocità che vedi. (o
+  viceversa, perché i due esperimenti potranno avere ordine diverso
+  per diversi soggetti) Domande? Procediamo con il training...
+
+- training
+
+- sentirai due ritmi sovrapposti e dovrai trascinare con
+  lo stilo la pallina alla velocità e nella direzione dedotte dal
+  ritmo. Domande?
+
+- exp-a-touch
+
+- vedrai il pallino rosso muoversi dal centro alla circonferenza, e
+  dovrai produrre due ritmi che corrispondono ciascuno a una delle due
+  componenti di velocità. Per esempio, se vedi il pallino andare lento
+  in questa direzione, farai così e così con le frecce
+  (esemplificare). Se vedi il pallino andare veloce in quest'altra
+  direzione, farai così e così con le frecce (esemplificare). Domande?
+
+- exp-b
+
+------ Tempi di massima ------
+
+00:0 - firma consenso
+01:0 - firma privacy
+02:0 - spiegazione generale
+07:0 - training
+14:0 - spiegazione exp a (exp b)
+17:0 - exp a (exp b) 
+27:0 - spiegazione exp b (exp a)
+30:0 - exp b (exp a)
+40:0 - NASA TLX + commenti
+45:0 - NASA TLX + commenti
+50:0 
